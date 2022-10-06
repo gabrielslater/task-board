@@ -1,3 +1,4 @@
+import 'package:final_project_kanban_board/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class KanbanScaffold extends StatefulWidget {
@@ -17,6 +18,7 @@ class _KanbanScaffoldState extends State<KanbanScaffold> {
       body: const Center(
         child: Text('Test'),
       ),
+      drawer: const KanbanNavigationDrawer(),
     );
   }
 }
