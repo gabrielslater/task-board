@@ -1,4 +1,5 @@
 import 'package:final_project_kanban_board/navigation_bar.dart';
+import 'package:final_project_kanban_board/screens/workspace.dart';
 import 'package:flutter/material.dart';
 
 class KanbanScaffold extends StatefulWidget {
@@ -15,9 +16,7 @@ class _KanbanScaffoldState extends State<KanbanScaffold> {
       appBar: AppBar(
         title: const Text('Test'),
       ),
-      body: const Center(
-        child: Text('Test'),
-      ),
+      body: const KanbanWorkspace(),
       drawer: const KanbanNavigationDrawer(),
     );
   }
