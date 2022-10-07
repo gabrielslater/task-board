@@ -40,33 +40,3 @@ class KanbanCard extends StatelessWidget {
     );
   }
 }
-
-// return Container(
-// padding: const EdgeInsets.all(8),
-// color: Colors.white,
-// child: FittedBox(
-// child: Column(
-// mainAxisSize: MainAxisSize.min,
-// crossAxisAlignment: CrossAxisAlignment.start,
-// children: [
-// const Text(
-// "Test",
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// fontSize: 14,
-// ),
-// ),
-// Flexible(
-// child: Container(
-// padding: const EdgeInsets.all(8),
-// child: const Text(
-// "Id aut sint asperiores atque ad ad et inventore. Omnis numquam "
-// "et eveniet. Earum quis error non. Incidunt atque rerum "
-// "occaecati cum sed veniam.",
-// ),
-// ),
-// ),
-// ],
-// ),
-// ),
-// );
