@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class KanbanCard extends StatelessWidget {
+  /// Creates a card with a title and body.
   const KanbanCard({Key? key, this.title, this.body}) : super(key: key);
 
   final String? title;
