@@ -1,3 +1,4 @@
+import 'package:final_project_kanban_board/card.dart';
 import 'package:flutter/material.dart';
 
 class KanbanWorkspace extends StatelessWidget {
@@ -11,11 +12,11 @@ class KanbanWorkspace extends StatelessWidget {
   Widget _createCardColumn(BuildContext context) {
     return SizedBox(
       child: Container(
-        width: 300,
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        width: 350,
         color: Colors.black12,
         child: Column(
-          children: [
+          children: <Widget>[
             Row(
               children: const <Widget>[
                 Text(
@@ -31,6 +32,19 @@ class KanbanWorkspace extends StatelessWidget {
                   icon: Icon(Icons.add),
                 ),
               ],
+            ),
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: <Widget>[
+                  KanbanCard(),
+                  KanbanCard(),
+                  KanbanCard(),
+                  KanbanCard(),
+                  KanbanCard(),
+                ],
+              ),
             ),
           ],
         ),
