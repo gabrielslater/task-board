@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class KanbanCard extends StatelessWidget {
-  const KanbanCard({Key? key}) : super(key: key);
+  const KanbanCard({Key? key, this.title, this.body}) : super(key: key);
+
+  final String? title;
+  final String? body;
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +17,9 @@ class KanbanCard extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              const Text(
-                "Test Title",
-                style: TextStyle(
+              Text(
+                title ?? "",
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
@@ -30,10 +33,7 @@ class KanbanCard extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.all(8),
-            child: const Text(
-                "Id aut sint asperiores atque ad ad et inventore. Omnis numquam "
-                "et eveniet. Earum quis error non. Incidunt atque rerum "
-                "occaecati cum sed veniam."),
+            child: Text(body ?? ""),
           )
         ],
       ),
