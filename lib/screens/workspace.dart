@@ -37,11 +37,13 @@ class KanbanWorkspace extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                children: <Widget>[
-                  KanbanCard(),
-                  KanbanCard(),
-                  KanbanCard(),
-                  KanbanCard(),
+                children: const <Widget>[
+                  KanbanCard(
+                      title: "Lorem Ipsum",
+                      body:
+                          "Id aut sint asperiores atque ad ad et inventore. Omnis "
+                          "numquam et eveniet. Earum quis error non. Incidunt "
+                          "atque rerum occaecati cum sed veniam."),
                   KanbanCard(),
                 ],
               ),
