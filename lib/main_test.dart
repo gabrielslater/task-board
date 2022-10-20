@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'card_list_editor.dart';
-import 'editable_card_list.dart';
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -31,38 +28,42 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<ListModel> list = [];
+  int cardCount = 1;
+  List<int> list = [1];
 
   @override
-  Scaffold initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
         onPressed: () {
-          for (int i = 1; i <= list.length; i++){
-            list.add(ListModel(title: "Title $i", subTitle: "Subtitle $i"));
-            setState(() {});
-          }
+          cardCount += 1;
+          list.add(cardCount);
+          setState(() {});
         },
       ),
+      body: Padding(
+          padding: const EdgeInsets.only(top: 38.0, right: 10, left: 10),
+          child: ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (content, index) {
+                return SizedBox(
+                  height: 170,
+                  child: Card(
+                    elevation: 8,
+                    child: Column(
+                      children: const [
+                        Text('Title'),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text('Text')
+                      ],
+                    ),
+                  ),
+                );
+              })),
     );
-  }
-  @override
-  Widget edit(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context, index) => EditableCardList(
-            model: list[index],
-            onChanged: (updatedModel) {
-              list[index] = updatedModel;
-            },
-          ),
-        ));
   }
 }
