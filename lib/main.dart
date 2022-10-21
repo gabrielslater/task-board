@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'editable_card_list.dart';
 import 'card_list_editor.dart';
+import 'editable_card_list.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'KanBan',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'KanBan Board'),
     );
   }
 }
@@ -26,6 +26,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
@@ -33,14 +34,21 @@ class _MyHomePageState extends State<MyHomePage> {
   List<ListModel> list = [];
 
   @override
-  void initState() {
+  Scaffold initState() {
     super.initState();
-
-    for (int i = 1; i <= 6; i++) {
-      list.add(ListModel(title: "Title $i", subTitle: "Subtitle $i"));
-    }
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
+        onPressed: () {
+          for (int i = 1; i <= 6; i++){
+            list.add(ListModel(title: "Title $i", subTitle: "Subtitle $i"));
+            setState(() {});
+          }
+        },
+      ),
+    );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
