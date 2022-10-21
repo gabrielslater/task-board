@@ -1,6 +1,6 @@
+import 'package:final_project_kanban_board/kanban_card.dart';
 import 'package:flutter/material.dart';
 
-import 'card_list_editor.dart';
 import 'editable_card_list.dart';
 
 void main() => runApp(const MyApp());
@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<ListModel> list = [];
+  List<KanbanCardModel> list = [];
   var _i = 1;
 
   @override
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _addCard() {
     setState(() {
-      list.add(ListModel(title: "Title $_i", subTitle: "Subtitle $_i"));
+      list.add(KanbanCardModel(title: "Title $_i", body: "Subtitle $_i"));
       _i++;
     });
   }
