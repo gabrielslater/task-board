@@ -33,6 +33,16 @@ class _MyHomePageState extends State<MyHomePage> {
   List<ListModel> list = [];
   var _i = 1;
 
+  @override
+  void initState() {
+    super.initState();
+
+    for (var i = 0; i < 3; i++) {
+      list.add(ListModel(title: "Title $_i", subTitle: "Subtitle $_i"));
+      _i++;
+    }
+  }
+
   void _addCard() {
     setState(() {
       list.add(ListModel(title: "Title $_i", subTitle: "Subtitle $_i"));
