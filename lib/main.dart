@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'editable_card_list.dart';
 import 'card_list_editor.dart';
+import 'editable_card_list.dart';
 
 void main() => runApp(const MyApp());
 
@@ -26,35 +26,40 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   List<ListModel> list = [];
+  var _i = 1;
 
-  @override
-  void initState() {
-    super.initState();
-
-    for (int i = 1; i <= 6; i++) {
-      list.add(ListModel(title: "Title $i", subTitle: "Subtitle $i"));
-    }
+  void _addCard() {
+    setState(() {
+      list.add(ListModel(title: "Title $_i", subTitle: "Subtitle $_i"));
+      _i++;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) => EditableCardList(
+          model: list[index],
+          onChanged: (updatedModel) {
+            list[index] = updatedModel;
+          },
         ),
-        body: ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context, index) => EditableCardList(
-            model: list[index],
-            onChanged: (updatedModel) {
-              list[index] = updatedModel;
-            },
-          ),
-        ));
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addCard,
+        tooltip: 'Add Card',
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
