@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'editable_card_list.dart';
 import 'card_list_editor.dart';
+import 'editable_card_list.dart';
 
 void main() => runApp(const MyApp());
 
@@ -38,8 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     for (var i = 0; i < 3; i++) {
-      list.add(ListModel(title: "Title $_i", subTitle: "Subtitle $_i"));
-      _i++;
+      _addCard();
     }
   }
 
