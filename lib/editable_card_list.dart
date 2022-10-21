@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'kanban_card.dart';
 
 class EditableCardList extends StatefulWidget {
-  final KanbanCardDetails model;
-  final Function(KanbanCardDetails kanbanCardModel) onChanged;
+  final KanbanCardModel model;
+  final Function(KanbanCardModel kanbanCardModel) onChanged;
 
   const EditableCardList(
       {Key? key, required this.model, required this.onChanged})
@@ -15,7 +15,7 @@ class EditableCardList extends StatefulWidget {
 }
 
 class _EditableCardListState extends State<EditableCardList> {
-  late KanbanCardDetails model;
+  late KanbanCardModel model;
 
   late bool editingModeMarker;
 

@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<KanbanCardDetails> list = [];
+  List<KanbanCardModel> list = [];
   var _i = 1;
 
   @override
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _addCard() {
     setState(() {
-      list.add(KanbanCardDetails(title: "Title $_i", body: "Subtitle $_i"));
+      list.add(KanbanCardModel(title: "Title $_i", body: "Subtitle $_i"));
       _i++;
     });
   }

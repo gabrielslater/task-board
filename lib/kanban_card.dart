@@ -1,8 +1,8 @@
-class KanbanCardDetails {
+class KanbanCardModel {
   String title;
   String body;
 
-  KanbanCardDetails({
+  KanbanCardModel({
     required this.title,
     required this.body,
   });
