@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
         onPressed: () {
-          for (int i = 1; i <= list.length; i++){
+          for (int i = 1; i <= 6; i++){
             list.add(ListModel(title: "Title $i", subTitle: "Subtitle $i"));
             setState(() {});
           }
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
   @override
-  Widget edit(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
