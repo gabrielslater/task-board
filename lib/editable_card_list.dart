@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-import 'card_list_editor.dart';
+import 'kanban_card.dart';
 
 class EditableCardList extends StatefulWidget {
-  final ListModel model;
-  final Function(ListModel listModel) onChanged;
+  final KanbanCardDetails model;
+  final Function(KanbanCardDetails kanbanCardModel) onChanged;
+
   const EditableCardList(
       {Key? key, required this.model, required this.onChanged})
       : super(key: key);
 
   @override
-  _EditableCardListState createState() => _EditableCardListState();
+  State<EditableCardList> createState() => _EditableCardListState();
 }
 
 class _EditableCardListState extends State<EditableCardList> {
-  late ListModel model;
+  late KanbanCardDetails model;
 
   late bool editingModeMarker;
 
@@ -43,31 +44,34 @@ class _EditableCardListState extends State<EditableCardList> {
       return TextField(
         controller: _titleEditingController,
       );
-    } else
+    } else {
       return Text(model.title);
+    }
   }
 
   Widget get subTitleWidget {
     if (editingModeMarker) {
-      _subTitleEditingController = TextEditingController(text: model.subTitle);
+      _subTitleEditingController = TextEditingController(text: model.body);
       return TextField(
         controller: _subTitleEditingController,
       );
-    } else
-      return Text(model.subTitle);
+    } else {
+      return Text(model.body);
+    }
   }
 
   Widget get trailingButton {
     if (editingModeMarker) {
       return IconButton(
-        icon: Icon(Icons.check),
+        icon: const Icon(Icons.check),
         onPressed: commitTextEdits,
       );
-    } else
+    } else {
       return IconButton(
-        icon: Icon(Icons.edit),
+        icon: const Icon(Icons.edit),
         onPressed: editingModeSetState,
       );
+    }
   }
 
   void editingModeSetState() {
@@ -77,11 +81,9 @@ class _EditableCardListState extends State<EditableCardList> {
   }
 
   void commitTextEdits() {
-    this.model.title = _titleEditingController.text;
-    this.model.subTitle = _subTitleEditingController.text;
+    model.title = _titleEditingController.text;
+    model.body = _subTitleEditingController.text;
     editingModeSetState();
-    if (widget.onChanged != null) {
-      widget.onChanged(this.model);
-    }
+    widget.onChanged(model);
   }
 }
