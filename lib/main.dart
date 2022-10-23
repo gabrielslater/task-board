@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'KanBan!',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepOrange,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Project KanBan!'),
     );
   }
 }
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: FloatingActionButton(
                 onPressed: _addCard,
                 tooltip: 'Add Card',
-                backgroundColor: Colors.deepPurpleAccent,
+                backgroundColor: Colors.green,
                 child: const Icon(Icons.add),
               )), //button first
 
@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: FloatingActionButton(
                 onPressed: _deleteCard,
                 tooltip: 'Delete Card',
-                backgroundColor: Colors.deepOrangeAccent,
+                backgroundColor: Colors.red,
                 child: const Icon(Icons.remove),
               )), // button third
           // Add more buttons here
@@ -100,3 +100,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
