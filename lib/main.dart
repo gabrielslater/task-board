@@ -16,12 +16,12 @@ class _KanbanAppState extends State<KanbanApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Test',
+        title: 'Kanban',
         home: Builder(
           builder: (BuildContext context) {
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Test'),
+                title: const Text('Kanban'),
               ),
               body: const KanbanWorkspace(),
               drawer: const KanbanNavigationDrawer(),
