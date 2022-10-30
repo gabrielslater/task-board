@@ -1,3 +1,4 @@
+import 'package:final_project_kanban_board/kanban_card.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -138,42 +139,7 @@ class KanbanColumn extends StatelessWidget {
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               children: [
-                KanbanCard(
-                  title: "title",
-                  body: "body",
-                ),
-                KanbanCard(
-                  title: "title",
-                  body: "body",
-                ),
-                KanbanCard(
-                  title: "title",
-                  body: "body",
-                ),
-                KanbanCard(
-                  title: "title",
-                  body: "body",
-                ),
-                KanbanCard(
-                  title: "title",
-                  body: "body",
-                ),
-                KanbanCard(
-                  title: "title",
-                  body: "body",
-                ),
-                KanbanCard(
-                  title: "title",
-                  body: "body",
-                ),
-                KanbanCard(
-                  title: "title",
-                  body: "body",
-                ),
-                KanbanCard(
-                  title: "title",
-                  body: "body",
-                ),
+                KanbanCard(),
               ],
             )),
           ],
@@ -185,21 +151,42 @@ class KanbanColumn extends StatelessWidget {
 
 /// Creates a widget for displaying a [KanbanCardModel].
 class KanbanCard extends StatefulWidget {
-  // TODO: temporary values until [KanbanCardModel] is attached
-  String title;
-  String body;
+  KanbanCardModel _card = KanbanCardModel(title: "Title", body: "Body");
 
-  KanbanCard({
-    Key? key,
-    required this.title,
-    required this.body,
-  }) : super(key: key);
+  KanbanCard({Key? key}) : super(key: key);
+
+  void editTitle(String title) {
+    _card = KanbanCardModel(title: title, body: _card.body);
+  }
+
+  void editBody(String body) {
+    _card = KanbanCardModel(title: _card.title, body: body);
+  }
 
   @override
   State<StatefulWidget> createState() => _KanbanCardState();
 }
 
 class _KanbanCardState extends State<KanbanCard> {
+  // https://blog.nonstopio.com/the-editable-text-in-a-flutter-aeca4e845cbb?gi=2a69035248be
+  bool _isEditingText = false;
+  late TextEditingController _titleEditingController;
+  late TextEditingController _bodyEditingController;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleEditingController = TextEditingController(text: widget._card.title);
+    _bodyEditingController = TextEditingController(text: widget._card.body);
+  }
+
+  @override
+  void dispose() {
+    _titleEditingController.dispose();
+    _bodyEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -208,27 +195,69 @@ class _KanbanCardState extends State<KanbanCard> {
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text(
-                widget.title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              title,
               const Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.edit),
-              )
+              _buildEditButton(),
             ],
           ),
-          Text(widget.body)
+          body,
         ],
       ),
     );
+  }
+
+  Widget get title {
+    if (_isEditingText) {
+      return ConstrainedBox(
+          constraints: const BoxConstraints.tightFor(width: 200),
+          child: TextField(controller: _titleEditingController));
+    } else {
+      return Text(
+        widget._card.title,
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
+  }
+
+  Widget get body {
+    if (_isEditingText) {
+      return TextField(controller: _bodyEditingController);
+    } else {
+      return Text(widget._card.body);
+    }
+  }
+
+  Widget _buildEditButton() {
+    if (_isEditingText) {
+      return IconButton(
+        onPressed: () {
+          print("off");
+          setState(() {
+            widget.editTitle(_titleEditingController.text.toString());
+            widget.editBody(_bodyEditingController.text.toString());
+            _isEditingText = false;
+          });
+        },
+        icon: const Icon(Icons.check),
+      );
+    } else {
+      return IconButton(
+        onPressed: () {
+          print("on");
+          setState(() {
+            _isEditingText = true;
+          });
+        },
+        icon: const Icon(Icons.edit),
+      );
+    }
   }
 }
 
