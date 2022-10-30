@@ -18,29 +18,15 @@ class _KanbanAppState extends State<KanbanApp> {
         title: 'Test',
         home: Builder(
           builder: (BuildContext context) {
-            return const KanbanScaffold();
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Test'),
+              ),
+              body: const KanbanWorkspace(),
+              drawer: const KanbanNavigationDrawer(),
+            );
           },
         ));
-  }
-}
-
-class KanbanScaffold extends StatefulWidget {
-  const KanbanScaffold({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _KanbanScaffoldState();
-}
-
-class _KanbanScaffoldState extends State<KanbanScaffold> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Test'),
-      ),
-      body: const KanbanWorkspace(),
-      drawer: const KanbanNavigationDrawer(),
-    );
   }
 }
 
@@ -110,19 +96,104 @@ class KanbanNavigationDrawer extends StatelessWidget {
   }
 }
 
+/// Creates a widget for containing a set of [KanbanCard]s.
 class KanbanColumn extends StatelessWidget {
-  const KanbanColumn({Key? key}) : super(key: key);
+  // TODO: temporary final values until [KanbanColumnModel] is finished
+  final String title;
+
+  const KanbanColumn({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return SizedBox(
+      child: Container(
+        width: 350,
+        color: Colors.black12,
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const Spacer(),
+                // TODO: add card on press
+                const IconButton(
+                  onPressed: null,
+                  icon: Icon(Icons.add),
+                )
+              ],
+            ),
+            Expanded(
+                child: ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: [
+                KanbanCard(
+                  title: "title",
+                  body: "body",
+                ),
+                KanbanCard(
+                  title: "title",
+                  body: "body",
+                ),
+                KanbanCard(
+                  title: "title",
+                  body: "body",
+                ),
+                KanbanCard(
+                  title: "title",
+                  body: "body",
+                ),
+                KanbanCard(
+                  title: "title",
+                  body: "body",
+                ),
+                KanbanCard(
+                  title: "title",
+                  body: "body",
+                ),
+                KanbanCard(
+                  title: "title",
+                  body: "body",
+                ),
+                KanbanCard(
+                  title: "title",
+                  body: "body",
+                ),
+                KanbanCard(
+                  title: "title",
+                  body: "body",
+                ),
+              ],
+            )),
+          ],
+        ),
+      ),
+    );
   }
 }
 
+/// Creates a widget for displaying a [KanbanCardModel].
 class KanbanCard extends StatefulWidget {
-  /// Creates a card with a title and body.
-  const KanbanCard({Key? key}) : super(key: key);
+  // TODO: temporary values until [KanbanCardModel] is attached
+  String title;
+  String body;
+
+  KanbanCard({
+    Key? key,
+    required this.title,
+    required this.body,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _KanbanCardState();
@@ -133,16 +204,16 @@ class _KanbanCardState extends State<KanbanCard> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      margin: const EdgeInsets.fromLTRB(8, 0, 16, 8),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
-              const Text(
-                "",
-                style: TextStyle(
+              Text(
+                widget.title,
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
@@ -154,10 +225,7 @@ class _KanbanCardState extends State<KanbanCard> {
               )
             ],
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text(""),
-          )
+          Text(widget.body)
         ],
       ),
     );
@@ -169,6 +237,6 @@ class KanbanWorkspace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const KanbanColumn(title: "title");
   }
 }
