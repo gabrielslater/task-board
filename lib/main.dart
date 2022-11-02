@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'KanBan!',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepOrange,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Project KanBan!'),
     );
   }
 }
@@ -45,10 +45,19 @@ class _MyHomePageState extends State<MyHomePage> {
   void _addCard() {
     setState(() {
       list.add(KanbanCardModel(title: "Title $_i", body: "Subtitle $_i"));
-      _i++;
+      _i = _i + 1;
     });
   }
 
+  void _deleteCard() {
+    setState(() {
+      // ignore: unrelated_type_equality_checks
+      list.removeLast();
+      _i = _i - 1;
+    });
+  }
+
+// _i--;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,11 +73,31 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addCard,
-        tooltip: 'Add Card',
-        child: const Icon(Icons.add),
+      floatingActionButton: Wrap(
+        //will break to another line on overflow
+        direction: Axis.horizontal, //use vertical to show  on vertical axis
+        children: <Widget>[
+          Container(
+              margin: const EdgeInsets.all(10),
+              child: FloatingActionButton(
+                onPressed: _addCard,
+                tooltip: 'Add Card',
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.add),
+              )), //button first
+
+          Container(
+              margin: const EdgeInsets.all(10),
+              child: FloatingActionButton(
+                onPressed: _deleteCard,
+                tooltip: 'Delete Card',
+                backgroundColor: Colors.red,
+                child: const Icon(Icons.remove),
+              )), // button third
+          // Add more buttons here
+        ],
       ),
     );
   }
 }
+
