@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'KanBan!',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepOrange,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Project KanBan!'),
     );
   }
 }
@@ -30,22 +30,47 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<KanbanCardModel> list = [];
-  var _i = 1;
+  List<KanbanCardModel> firstList = [];
+  List<KanbanCardModel> secondList = [];
+  List<KanbanCardModel> thirdList = [];
+  var listOneCounter = 1;
+  var listTwoCounter = 1;
+  var listThreeCounter = 1;
 
   @override
   void initState() {
     super.initState();
 
     for (var i = 0; i < 3; i++) {
-      _addCard();
+      firstList.add(KanbanCardModel(
+          title: "Title $listOneCounter", body: "Subtitle $listOneCounter"));
+      listOneCounter++;
+
+      secondList.add(KanbanCardModel(
+          title: "Title $listTwoCounter", body: "Subtitle $listTwoCounter"));
+      listTwoCounter++;
+
+      thirdList.add(KanbanCardModel(
+          title: "Title $listThreeCounter",
+          body: "Subtitle $listThreeCounter"));
+      listThreeCounter++;
     }
   }
 
   void _addCard() {
     setState(() {
-      list.add(KanbanCardModel(title: "Title $_i", body: "Subtitle $_i"));
-      _i++;
+      firstList.add(KanbanCardModel(
+          title: "Title $listOneCounter", body: "Subtitle $listOneCounter"));
+      listOneCounter++;
+    });
+  }
+
+  //LIST.REMOVE AT INDEX IN LIST???
+  void _deleteCard() {
+    setState(() {
+      // ignore: unrelated_type_equality_checks
+      firstList.removeAt(listOneCounter);
+      listOneCounter--;
     });
   }
 
@@ -55,20 +80,114 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) => EditableCardList(
-          model: list[index],
-          onChanged: (updatedModel) {
-            list[index] = updatedModel;
-          },
-        ),
+      body: Row(
+        children: [
+          Flexible(
+            child: Container(
+              color: Colors.blue,
+              child: ListView.builder(
+                itemCount: firstList.length,
+                itemBuilder: (context, index) => EditableCardList(
+                  const ListTile(title: Text("List1")),
+                  model: firstList[index],
+                  onChanged: (updatedModel) {
+                    firstList[index] = updatedModel;
+                  },
+                ),
+              ),
+            ),
+          ),
+          Flexible(
+              child: Container(
+            color: Colors.green,
+            child: ListView.builder(
+              itemCount: secondList.length,
+              itemBuilder: (context, index) => EditableCardList(
+                const ListTile(title: Text("List2")),
+                model: secondList[index],
+                onChanged: (updatedModel) {
+                  secondList[index] = updatedModel;
+                },
+              ),
+            ),
+          )),
+          Flexible(
+            child: Container(
+              color: Colors.purple,
+              child: ListView.builder(
+                itemCount: thirdList.length,
+                itemBuilder: (context, index) => EditableCardList(
+                  const ListTile(title: Text("List1")),
+                  model: thirdList[index],
+                  onChanged: (updatedModel) {
+                    thirdList[index] = updatedModel;
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addCard,
-        tooltip: 'Add Card',
-        child: const Icon(Icons.add),
+
+      floatingActionButton: Wrap(
+        //will break to another line on overflow
+        direction: Axis.horizontal, //use vertical to show  on vertical axis
+        children: <Widget>[
+          Container(
+              padding: EdgeInsets.only(right: 5),
+              child: FloatingActionButton(
+                onPressed: _addCard,
+                tooltip: 'Add Card',
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.add),
+              )),
+          //button first
+          Container(
+              //margin: const EdgeInsets.all(35),
+              padding: EdgeInsets.only(right: 5),
+              child: FloatingActionButton(
+                onPressed: _addCard,
+                tooltip: 'Add Card',
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.add),
+              )),
+          Container(
+              padding: EdgeInsets.only(right: 5),
+              child: FloatingActionButton(
+                onPressed: _addCard,
+                tooltip: 'Add Card',
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.add),
+              )),
+          Container(
+              padding: EdgeInsets.only(right: 5),
+              child: FloatingActionButton(
+                onPressed: _addCard,
+                tooltip: 'Add Card',
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.add),
+              )),
+          Container(
+              padding: EdgeInsets.only(right: 5),
+              child: FloatingActionButton(
+                onPressed: _addCard,
+                tooltip: 'Add Card',
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.add),
+              )),
+          Container(
+              padding: EdgeInsets.only(right: 5),
+              child: FloatingActionButton(
+                onPressed: _deleteCard,
+                tooltip: 'Delete Card',
+                backgroundColor: Colors.red,
+                child: const Icon(Icons.remove),
+              )), // button third
+          // Add more buttons here
+        ],
       ),
+
+      ////////
     );
   }
 }
