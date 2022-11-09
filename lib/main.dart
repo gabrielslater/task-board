@@ -151,16 +151,16 @@ class KanbanColumn extends StatelessWidget {
 
 /// Creates a widget for displaying a [KanbanCardModel].
 class KanbanCard extends StatefulWidget {
-  KanbanCardModel _card = KanbanCardModel(title: "Title", body: "Body");
+  KanbanCardModel _card = const KanbanCardModel("Title", "Body", 0);
 
   KanbanCard({Key? key}) : super(key: key);
 
   void editTitle(String title) {
-    _card = KanbanCardModel(title: title, body: _card.body);
+    _card = _card.updateTitle(title);
   }
 
   void editBody(String body) {
-    _card = KanbanCardModel(title: _card.title, body: body);
+    _card = _card.updateBody(body);
   }
 
   @override
