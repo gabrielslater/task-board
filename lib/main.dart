@@ -24,7 +24,7 @@ class _KanbanAppState extends State<KanbanApp> {
                 title: const Text('Kanban'),
               ),
               body: const KanbanWorkspace(),
-              drawer: const KanbanNavigationDrawer(),
+              // drawer: const KanbanNavigationDrawer(),
             );
           },
         ));
