@@ -105,5 +105,8 @@ void main() {
         expect(column.getCardById(0).title, equals('Title 0'));
       });
     });
+    group('removeCardById', () {
+      test('removeCardById returns the card it removed', () {});
+    });
   });
 }
