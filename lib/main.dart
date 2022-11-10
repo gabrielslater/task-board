@@ -151,7 +151,17 @@ class KanbanColumn extends StatelessWidget {
 
 /// Creates a widget for displaying a [KanbanCardModel].
 class KanbanCard extends StatefulWidget {
-  const KanbanCard({Key? key}) : super(key: key);
+  KanbanCardModel _card = const KanbanCardModel("Title", "Body", 0);
+
+  KanbanCard({Key? key}) : super(key: key);
+
+  void editTitle(String title) {
+    _card = _card.updateTitle(title);
+  }
+
+  void editBody(String body) {
+    _card = _card.updateBody(body);
+  }
 
   @override
   State<StatefulWidget> createState() => _KanbanCardState();
@@ -162,13 +172,12 @@ class _KanbanCardState extends State<KanbanCard> {
   bool _isEditingText = false;
   late TextEditingController _titleEditingController;
   late TextEditingController _bodyEditingController;
-  KanbanCardModel _card = const KanbanCardModel("Title", "Body", 0);
 
   @override
   void initState() {
     super.initState();
-    _titleEditingController = TextEditingController(text: _card.title);
-    _bodyEditingController = TextEditingController(text: _card.body);
+    _titleEditingController = TextEditingController(text: widget._card.title);
+    _bodyEditingController = TextEditingController(text: widget._card.body);
   }
 
   @override
@@ -208,7 +217,7 @@ class _KanbanCardState extends State<KanbanCard> {
           child: TextField(controller: _titleEditingController));
     } else {
       return Text(
-        _card.title,
+        widget._card.title,
         style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
@@ -221,7 +230,7 @@ class _KanbanCardState extends State<KanbanCard> {
     if (_isEditingText) {
       return TextField(controller: _bodyEditingController);
     } else {
-      return Text(_card.body);
+      return Text(widget._card.body);
     }
   }
 
@@ -231,8 +240,8 @@ class _KanbanCardState extends State<KanbanCard> {
         onPressed: () {
           print("off");
           setState(() {
-            editTitle(_titleEditingController.text.toString());
-            editBody(_bodyEditingController.text.toString());
+            widget.editTitle(_titleEditingController.text.toString());
+            widget.editBody(_bodyEditingController.text.toString());
             _isEditingText = false;
           });
         },
@@ -249,14 +258,6 @@ class _KanbanCardState extends State<KanbanCard> {
         icon: const Icon(Icons.edit),
       );
     }
-  }
-
-  void editTitle(String title) {
-    _card = _card.updateTitle(title);
-  }
-
-  void editBody(String body) {
-    _card = _card.updateBody(body);
   }
 }
 
