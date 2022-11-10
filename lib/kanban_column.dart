@@ -10,6 +10,8 @@ class KanbanColumnModel {
 
   int get size => _cards.length;
 
+  List<KanbanCardModel> get cards => [..._cards];
+
   void renameColumn(String newTitle) {
     _title = newTitle;
   }
