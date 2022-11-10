@@ -89,8 +89,11 @@ class _EditableCardListState extends State<EditableCardList> {
   }
 
   void commitTextEdits() {
-    model.title = _titleEditingController.text;
-    model.body = _subTitleEditingController.text;
+    model = model
+        .updateTitle(_titleEditingController.text)
+        .updateBody(_subTitleEditingController.text);
+    // model.title = _titleEditingController.text;
+    // model.body = _subTitleEditingController.text;
     editingModeSetState();
     widget.onChanged(model);
   }

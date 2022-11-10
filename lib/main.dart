@@ -43,16 +43,24 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
 
     for (var i = 0; i < 3; i++) {
       firstList.add(KanbanCardModel(
-          title: "Title $listOneCounter", body: "Subtitle $listOneCounter"));
+        "Title $listOneCounter",
+        "Subtitle $listOneCounter",
+        0,
+      ));
       listOneCounter++;
 
       secondList.add(KanbanCardModel(
-          title: "Title $listTwoCounter", body: "Subtitle $listTwoCounter"));
+        "Title $listTwoCounter",
+        "Subtitle $listTwoCounter",
+        0,
+      ));
       listTwoCounter++;
 
       thirdList.add(KanbanCardModel(
-          title: "Title $listThreeCounter",
-          body: "Subtitle $listThreeCounter"));
+        "Title $listThreeCounter",
+        "Subtitle $listThreeCounter",
+        0,
+      ));
       listThreeCounter++;
     }
   }
@@ -60,7 +68,10 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   void _addCard() {
     setState(() {
       firstList.add(KanbanCardModel(
-          title: "Title $listOneCounter", body: "Subtitle $listOneCounter"));
+        "Title $listOneCounter",
+        "Subtitle $listOneCounter",
+        0,
+      ));
       listOneCounter++;
     });
   }
@@ -133,7 +144,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
         direction: Axis.horizontal, //use vertical to show  on vertical axis
         children: <Widget>[
           Container(
-              padding: EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(right: 5),
               child: FloatingActionButton(
                 onPressed: _addCard,
                 tooltip: 'Add Card',
@@ -143,7 +154,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
           //button first
           Container(
               //margin: const EdgeInsets.all(35),
-              padding: EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(right: 5),
               child: FloatingActionButton(
                 onPressed: _addCard,
                 tooltip: 'Add Card',
@@ -151,7 +162,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                 child: const Icon(Icons.add),
               )),
           Container(
-              padding: EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(right: 5),
               child: FloatingActionButton(
                 onPressed: _addCard,
                 tooltip: 'Add Card',
@@ -159,7 +170,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                 child: const Icon(Icons.add),
               )),
           Container(
-              padding: EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(right: 5),
               child: FloatingActionButton(
                 onPressed: _addCard,
                 tooltip: 'Add Card',
@@ -167,7 +178,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                 child: const Icon(Icons.add),
               )),
           Container(
-              padding: EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(right: 5),
               child: FloatingActionButton(
                 onPressed: _addCard,
                 tooltip: 'Add Card',
@@ -175,7 +186,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                 child: const Icon(Icons.add),
               )),
           Container(
-              padding: EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(right: 5),
               child: FloatingActionButton(
                 onPressed: _deleteCard,
                 tooltip: 'Delete Card',
