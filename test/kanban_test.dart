@@ -127,7 +127,17 @@ void main() {
       });
     });
     group('removeCardById', () {
-      test('removeCardById returns the card it removed', () {});
+      test('removeCardById returns the card it removed', () {
+        var column = KanbanColumnModel('Column A');
+
+        column.addNewCard('Title 0', 'Body', 0);
+
+        expect(column.hasCard(0), equals(true));
+
+        var card = column.removeCardById(0);
+
+        expect(card.id, equals(0));
+      });
     });
   });
 
