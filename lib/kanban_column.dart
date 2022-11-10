@@ -15,6 +15,12 @@ class KanbanColumnModel {
     }
   }
 
+  void addCard(KanbanCardModel card) {
+    if (_cards.indexWhere((element) => element.id == card.id) == -1) {
+      _cards.add(card);
+    }
+  }
+
   KanbanCardModel getCardById(int id) {
     return _cards.firstWhere((element) => element.id == id);
   }
