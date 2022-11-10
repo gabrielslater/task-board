@@ -116,6 +116,16 @@ void main() {
         expect(column.getCardById(0).title, equals('Title 0'));
       });
     });
+    group('hasCard', () {
+      test('hasCard returns true when the card exists', () {
+        var column = KanbanColumnModel('Column A');
+
+        column.addNewCard('Title 0', 'Body', 0);
+
+        expect(column.hasCard(0), equals(true));
+        expect(column.hasCard(100), equals(false));
+      });
+    });
     group('removeCardById', () {
       test('removeCardById returns the card it removed', () {});
     });

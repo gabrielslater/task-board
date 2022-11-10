@@ -33,6 +33,10 @@ class KanbanColumnModel {
     return _cards.firstWhere((card) => card.id == id);
   }
 
+  bool hasCard(int id) {
+    return _cards.indexWhere((card) => card.id == id) != -1;
+  }
+
   KanbanCardModel removeCardById(int id) {
     var idx = _cards.indexWhere((card) => card.id == id);
     var card = _cards[idx];
