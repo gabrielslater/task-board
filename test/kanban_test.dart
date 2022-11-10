@@ -166,19 +166,40 @@ void main() {
     });
 
     // TODO: Ask about testing encapsulated functions
-    // group('moveCard', () {
-    //   test('moveCard sends a card from one column to another', () {
-    //     var board = KanbanBoardModel();
-    //     board.addColumn('Column A');
-    //     board.addColumn('Column B');
-    //   });
-    // });
-    //
-    // group('deleteCard', () {
-    //   test('', () {
-    //     var board = KanbanBoardModel();
-    //     board.addColumn('Column A');
-    //   });
-    // });
+    group('moveCard', () {
+      test('moveCard sends a card from one column to another', () {
+        var board = KanbanBoardModel();
+        board.addColumn('Column A');
+        board.addColumn('Column B');
+
+        board.addCard(0, 'Title', 'Body'); // id = 0
+        board.addCard(0, 'Title', 'Body'); // id = 1
+        board.addCard(0, 'Title', 'Body'); // id = 2
+
+        expect(board.columnHasCard(0, 2), equals(true));
+        expect(board.columnHasCard(1, 2), equals(false));
+
+        board.moveCard(0, 1, 2);
+
+        expect(board.columnHasCard(0, 2), equals(false));
+        expect(board.columnHasCard(1, 2), equals(true));
+      });
+    });
+
+    group('deleteCard', () {
+      test('deleteCard removes the expected card', () {
+        var board = KanbanBoardModel();
+        board.addColumn('Column A');
+
+        board.addCard(0, 'Title', 'Body');
+        board.addCard(0, 'Title', 'Body');
+
+        expect(board.columnHasCard(0, 1), equals(true));
+
+        board.deleteCard(0, 1);
+
+        expect(board.columnHasCard(0, 1), equals(false));
+      });
+    });
   });
 }
