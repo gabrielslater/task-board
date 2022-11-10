@@ -36,26 +36,41 @@ void main() {
   });
 
   group('Column Tests', () {
-    test('addNewCard adds new card', () {
-      var column = KanbanColumnModel('Column A');
+    group('addNewCard', () {
+      test('addNewCard adds new card', () {
+        var column = KanbanColumnModel('Column A');
 
-      column.addNewCard("Title", "Body", 0);
+        column.addNewCard("Title", "Body", 0);
 
-      expect(column.size, equals(1));
+        expect(column.size, equals(1));
+      });
+
+      test(
+          'addNewCard adds new card only if a card with it\'s id does not already exist',
+          () {
+        var column = KanbanColumnModel('Column A');
+
+        column.addNewCard("Title", "Body", 0);
+        column.addNewCard("Title 2", "Body 2", 0);
+
+        expect(column.size, equals(1));
+
+        column.addNewCard("Title 2", "Body 2", 1);
+
+        expect(column.size, equals(2));
+      });
     });
-    test(
-        'addNewCard adds new card only if a card with it\'s id does not already exist',
-        () {
-      var column = KanbanColumnModel('Column A');
 
-      column.addNewCard("Title", "Body", 0);
-      column.addNewCard("Title 2", "Body 2", 0);
+    group('getCardById', () {
+      test('getCardById returns the correct card', () {
+        var column = KanbanColumnModel('Column A');
 
-      expect(column.size, equals(1));
+        column.addNewCard('Title 0', 'Body', 0);
+        column.addNewCard('Title 1', 'Body', 1);
+        column.addNewCard('Title 2', 'Body', 2);
 
-      column.addNewCard("Title 2", "Body 2", 1);
-
-      expect(column.size, equals(2));
+        expect(column.getCardById(0).title, equals('Title 0'));
+      });
     });
   });
 }
