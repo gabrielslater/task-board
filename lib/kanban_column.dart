@@ -14,4 +14,8 @@ class KanbanColumnModel {
       _cards.add(KanbanCardModel(title, body, id));
     }
   }
+
+  KanbanCardModel getCardById(int id) {
+    return _cards.firstWhere((element) => element.id == id);
+  }
 }
