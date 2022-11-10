@@ -1,4 +1,5 @@
 import 'package:final_project_kanban_board/kanban_card.dart';
+import 'package:final_project_kanban_board/kanban_column.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -31,6 +32,30 @@ void main() {
       expect(modifiedCard.title, equals(card.title));
       expect(modifiedCard.body, equals(card.body));
       expect(modifiedCard.id, equals(card.id));
+    });
+  });
+
+  group('Column Tests', () {
+    test('addNewCard adds new card', () {
+      var column = KanbanColumnModel('Column A');
+
+      column.addNewCard("Title", "Body", 0);
+
+      expect(column.size, equals(1));
+    });
+    test(
+        'addNewCard adds new card only if a card with it\'s id does not already exist',
+        () {
+      var column = KanbanColumnModel('Column A');
+
+      column.addNewCard("Title", "Body", 0);
+      column.addNewCard("Title 2", "Body 2", 0);
+
+      expect(column.size, equals(1));
+
+      column.addNewCard("Title 2", "Body 2", 1);
+
+      expect(column.size, equals(2));
     });
   });
 }
