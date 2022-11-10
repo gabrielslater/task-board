@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'editable_card_list.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const KanbanApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class KanbanApp extends StatelessWidget {
+  const KanbanApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,21 +15,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: const MyHomePage(title: 'Project KanBan!'),
+      home: const KanbanMainPage(title: 'Project KanBan!'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class KanbanMainPage extends StatefulWidget {
+  const KanbanMainPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<KanbanMainPage> createState() => _KanbanMainPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _KanbanMainPageState extends State<KanbanMainPage> {
   List<KanbanCardModel> firstList = [];
   List<KanbanCardModel> secondList = [];
   List<KanbanCardModel> thirdList = [];
@@ -128,7 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-
       floatingActionButton: Wrap(
         //will break to another line on overflow
         direction: Axis.horizontal, //use vertical to show  on vertical axis
@@ -186,8 +185,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // Add more buttons here
         ],
       ),
-
-      ////////
     );
   }
 }
