@@ -24,4 +24,13 @@ class KanbanColumnModel {
   KanbanCardModel getCardById(int id) {
     return _cards.firstWhere((element) => element.id == id);
   }
+
+  KanbanCardModel removeCardById(int id) {
+    var idx = _cards.indexWhere((element) => element.id == id);
+    var card = _cards[idx];
+
+    _cards.removeAt(idx);
+
+    return card;
+  }
 }
