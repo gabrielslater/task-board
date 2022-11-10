@@ -22,4 +22,9 @@ class KanbanCardModel {
   KanbanCardModel copy() {
     return KanbanCardModel(_title, _body, _id);
   }
+
+  @override
+  String toString() {
+    return 'KanbanCardModel{_title: $_title, _body: $_body, _id: $_id}';
+  }
 }
