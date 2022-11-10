@@ -60,7 +60,40 @@ void main() {
         expect(column.size, equals(2));
       });
     });
+    group('addCard', () {
+      test('addCard adds an existing card', () {
+        var column = KanbanColumnModel('Column A');
 
+        var card = const KanbanCardModel("Title", "Body", 0);
+
+        column.addCard(card);
+
+        expect(column.size, equals(1));
+        expect(column.getCardById(0), equals(card));
+      });
+
+      test(
+          'addCard adds new card only if a card with it\'s id does not already exist',
+          () {
+        var column = KanbanColumnModel('Column A');
+
+        var card_1 = const KanbanCardModel("Title", "Body", 0);
+        var card_2 = const KanbanCardModel("Title 2", "Body 2", 0);
+
+        column.addCard(card_1);
+        column.addCard(card_2);
+
+        expect(column.size, equals(1));
+        expect(column.getCardById(0), card_1);
+
+        var card_3 = const KanbanCardModel("Title 2", "Body 2", 1);
+
+        column.addCard(card_3);
+
+        expect(column.size, equals(2));
+        expect(column.getCardById(1), card_3);
+      });
+    });
     group('getCardById', () {
       test('getCardById returns the correct card', () {
         var column = KanbanColumnModel('Column A');
