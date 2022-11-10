@@ -1,3 +1,4 @@
+import 'package:final_project_kanban_board/kanban_board.dart';
 import 'package:final_project_kanban_board/kanban_card.dart';
 import 'package:final_project_kanban_board/kanban_column.dart';
 import 'package:test/test.dart';
@@ -108,5 +109,66 @@ void main() {
     group('removeCardById', () {
       test('removeCardById returns the card it removed', () {});
     });
+  });
+
+  group('Board Tests', () {
+    group('addColumn', () {
+      test('addColumn adds a new column', () {
+        var board = KanbanBoardModel();
+        board.addColumn('Column A');
+
+        expect(board.size, equals(1));
+      });
+    });
+
+    group('getColumnTitle', () {
+      test('getColumnTitle returns the column\'s name', () {
+        var board = KanbanBoardModel();
+        board.addColumn('Column A');
+
+        expect(board.getColumnTitle(0), 'Column A');
+      });
+    });
+
+    group('renameColumn', () {
+      test('getColumnTitle properly renames a column', () {
+        var board = KanbanBoardModel();
+        board.addColumn('Column A');
+
+        expect(board.getColumnTitle(0), 'Column A');
+
+        board.renameColumn(0, 'Column 1');
+
+        expect(board.getColumnTitle(0), 'Column 1');
+      });
+    });
+
+    group('columnHasCard', () {
+      test('columnHasCard returns true when a column has a card with id N', () {
+        var board = KanbanBoardModel();
+        board.addColumn('Column A');
+
+        board.addCard(0, "Title", "Body");
+
+        expect(board.columnHasCard(0, 0), equals(true));
+        expect(board.columnHasCard(0, 10), equals(false));
+      });
+    });
+
+    // TODO: Ask about testing encapsulated functions
+    // group('moveCard', () {
+    //   test('moveCard sends a card from one column to another', () {
+    //     var board = KanbanBoardModel();
+    //     board.addColumn('Column A');
+    //     board.addColumn('Column B');
+    //   });
+    // });
+    //
+    // group('deleteCard', () {
+    //   test('', () {
+    //     var board = KanbanBoardModel();
+    //     board.addColumn('Column A');
+    //   });
+    // });
   });
 }
