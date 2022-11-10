@@ -6,7 +6,7 @@ class EditableCardList extends StatefulWidget {
   final KanbanCardModel model;
   final Function(KanbanCardModel kanbanCardModel) onChanged;
 
-  const EditableCardList(
+  const EditableCardList(ListTile listTile,
       {Key? key, required this.model, required this.onChanged})
       : super(key: key);
 
@@ -67,9 +67,17 @@ class _EditableCardListState extends State<EditableCardList> {
         onPressed: commitTextEdits,
       );
     } else {
-      return IconButton(
-        icon: const Icon(Icons.edit),
-        onPressed: editingModeSetState,
+      return Wrap(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.edit, color: Colors.green),
+            onPressed: editingModeSetState,
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete, color: Colors.red),
+            onPressed: deleteCard,
+          )
+        ],
       );
     }
   }
@@ -84,6 +92,12 @@ class _EditableCardListState extends State<EditableCardList> {
     model.title = _titleEditingController.text;
     model.body = _subTitleEditingController.text;
     editingModeSetState();
+    widget.onChanged(model);
+  }
+
+  void deleteCard() {
+    _titleEditingController.clear();
+    _subTitleEditingController.clear();
     widget.onChanged(model);
   }
 }
