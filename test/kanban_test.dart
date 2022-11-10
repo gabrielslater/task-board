@@ -37,6 +37,16 @@ void main() {
   });
 
   group('Column Tests', () {
+    group('renameColumn', () {
+      test('renameColumn renames a column', () {
+        var column = KanbanColumnModel('Column A');
+
+        expect(column.title, equals('Column A'));
+        column.renameColumn('Column 1');
+
+        expect(column.title, equals('Column 1'));
+      });
+    });
     group('addNewCard', () {
       test('addNewCard adds new card', () {
         var column = KanbanColumnModel('Column A');

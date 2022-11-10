@@ -1,12 +1,18 @@
 import 'kanban_card.dart';
 
 class KanbanColumnModel {
-  late final String _title;
+  late String _title;
   final List<KanbanCardModel> _cards = [];
 
   KanbanColumnModel(this._title);
 
+  String get title => _title;
+
   int get size => _cards.length;
+
+  void renameColumn(String newTitle) {
+    _title = newTitle;
+  }
 
   void addNewCard(String title, String body, int id) {
     // TODO: ask about throwing errors/exceptions
