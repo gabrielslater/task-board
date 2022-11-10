@@ -2,44 +2,53 @@ import 'package:flutter/material.dart';
 
 import 'kanban_card.dart';
 
-class EditableCardList extends StatefulWidget {
+class KanbanCard extends StatefulWidget {
   final KanbanCardModel model;
-  final Function(KanbanCardModel kanbanCardModel) onChanged;
+  final Function(KanbanCardModel kanbanCardModel) onDelete;
 
-  const EditableCardList(ListTile listTile,
-      {Key? key, required this.model, required this.onChanged})
+  const KanbanCard(ListTile listTile,
+      {Key? key, required this.model, required this.onDelete})
       : super(key: key);
 
   @override
-  State<EditableCardList> createState() => _EditableCardListState();
+  State<KanbanCard> createState() => _KanbanCardState();
 }
 
-class _EditableCardListState extends State<EditableCardList> {
+class _KanbanCardState extends State<KanbanCard> {
   late KanbanCardModel model;
 
-  late bool editingModeMarker;
+  late bool _isEditing;
 
-  late TextEditingController _titleEditingController,
-      _subTitleEditingController;
+  late TextEditingController _titleEditingController, _bodyEditingController;
 
   @override
   void initState() {
     super.initState();
     model = widget.model;
-    editingModeMarker = false;
+    _titleEditingController = TextEditingController(text: model.title);
+    _bodyEditingController = TextEditingController(text: model.body);
+    _isEditing = false;
   }
 
   @override
   Widget build(BuildContext context) {
+    print(model.id);
     return ListTile(
-      title: titleWidget,
-      subtitle: subTitleWidget,
+      title: title,
+      subtitle: body,
       trailing: trailingButton,
     );
   }
 
-  Widget get titleWidget {
-    if (editingModeMarker) {
+  @override
+  void dispose() {
+    _titleEditingController.dispose();
+    _bodyEditingController.dispose();
+    super.dispose();
+  }
+
+  Widget get title {
+    if (_isEditing) {
       _titleEditingController = TextEditingController(text: model.title);
       return TextField(
         controller: _titleEditingController,
@@ -49,11 +58,11 @@ class _EditableCardListState extends State<EditableCardList> {
     }
   }
 
-  Widget get subTitleWidget {
-    if (editingModeMarker) {
-      _subTitleEditingController = TextEditingController(text: model.body);
+  Widget get body {
+    if (_isEditing) {
+      _bodyEditingController = TextEditingController(text: model.body);
       return TextField(
-        controller: _subTitleEditingController,
+        controller: _bodyEditingController,
       );
     } else {
       return Text(model.body);
@@ -61,46 +70,42 @@ class _EditableCardListState extends State<EditableCardList> {
   }
 
   Widget get trailingButton {
-    if (editingModeMarker) {
+    if (_isEditing) {
       return IconButton(
         icon: const Icon(Icons.check),
-        onPressed: commitTextEdits,
+        onPressed: editText,
       );
     } else {
       return Wrap(
         children: [
           IconButton(
             icon: const Icon(Icons.edit, color: Colors.green),
-            onPressed: editingModeSetState,
+            onPressed: () {
+              setState(() {
+                _isEditing = true;
+              });
+            },
           ),
-          IconButton(
-            icon: const Icon(Icons.delete, color: Colors.red),
-            onPressed: deleteCard,
-          )
+          // IconButton(
+          //   icon: const Icon(Icons.delete, color: Colors.red),
+          //   onPressed: deleteCard,
+          // )
         ],
       );
     }
   }
 
-  void editingModeSetState() {
+  void editText() {
     setState(() {
-      editingModeMarker = !editingModeMarker;
+      model = model
+          .updateTitle(_titleEditingController.text)
+          .updateBody(_bodyEditingController.text);
+      _isEditing = false;
     });
-  }
-
-  void commitTextEdits() {
-    model = model
-        .updateTitle(_titleEditingController.text)
-        .updateBody(_subTitleEditingController.text);
-    // model.title = _titleEditingController.text;
-    // model.body = _subTitleEditingController.text;
-    editingModeSetState();
-    widget.onChanged(model);
+    // widget.onChanged(model, false, model.id);
   }
 
   void deleteCard() {
-    _titleEditingController.clear();
-    _subTitleEditingController.clear();
-    widget.onChanged(model);
+    widget.onDelete(model);
   }
 }

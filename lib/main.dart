@@ -1,4 +1,4 @@
-import 'package:final_project_kanban_board/kanban_card.dart';
+import 'package:final_project_kanban_board/kanban_board.dart';
 import 'package:flutter/material.dart';
 
 import 'editable_card_list.dart';
@@ -30,59 +30,79 @@ class KanbanMainPage extends StatefulWidget {
 }
 
 class _KanbanMainPageState extends State<KanbanMainPage> {
-  List<KanbanCardModel> firstList = [];
-  List<KanbanCardModel> secondList = [];
-  List<KanbanCardModel> thirdList = [];
-  var listOneCounter = 1;
-  var listTwoCounter = 1;
-  var listThreeCounter = 1;
+  KanbanBoardModel board = KanbanBoardModel();
 
   @override
   void initState() {
     super.initState();
 
+    board.addColumn('Column 1');
+    board.addColumn('Column 2');
+    board.addColumn('Column 3');
+
     for (var i = 0; i < 3; i++) {
-      firstList.add(KanbanCardModel(
-        "Title $listOneCounter",
-        "Subtitle $listOneCounter",
-        0,
-      ));
-      listOneCounter++;
-
-      secondList.add(KanbanCardModel(
-        "Title $listTwoCounter",
-        "Subtitle $listTwoCounter",
-        0,
-      ));
-      listTwoCounter++;
-
-      thirdList.add(KanbanCardModel(
-        "Title $listThreeCounter",
-        "Subtitle $listThreeCounter",
-        0,
-      ));
-      listThreeCounter++;
+      for (var j = 0; j < 3; j++) {
+        board.addCard(i, "Title", "Body");
+      }
     }
   }
 
-  void _addCard() {
+  void _addCard(int column) {
     setState(() {
-      firstList.add(KanbanCardModel(
-        "Title $listOneCounter",
-        "Subtitle $listOneCounter",
-        0,
-      ));
-      listOneCounter++;
+      board.addCard(column, "Title", "Body");
     });
   }
 
-  //LIST.REMOVE AT INDEX IN LIST???
-  void _deleteCard() {
-    setState(() {
-      // ignore: unrelated_type_equality_checks
-      firstList.removeAt(listOneCounter);
-      listOneCounter--;
-    });
+  Widget buildColumn(int column) {
+    return SizedBox(
+      child: Container(
+        width: 350,
+        color: column % 2 == 0 ? Colors.white24 : Colors.white,
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  board.getColumnTitle(column),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _addCard(column);
+                    });
+                  },
+                  icon: const Icon(Icons.add),
+                )
+              ],
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: board.getColumnList(column).length,
+                itemBuilder: (context, index) => KanbanCard(
+                  ListTile(title: Text(board.getColumnTitle(column))),
+                  model: board.getColumnList(column)[index],
+                  onDelete: (model) {
+                    setState(() {
+                      print(board.getColumnList(column)[index]);
+                      print(model);
+                      print('intended id ${model.id}');
+                      board.deleteCard(column, model.id);
+                    });
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -94,106 +114,12 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
       body: Row(
         children: [
           Flexible(
-            child: Container(
-              color: Colors.blue,
-              child: ListView.builder(
-                itemCount: firstList.length,
-                itemBuilder: (context, index) => EditableCardList(
-                  const ListTile(title: Text("List1")),
-                  model: firstList[index],
-                  onChanged: (updatedModel) {
-                    firstList[index] = updatedModel;
-                  },
-                ),
-              ),
-            ),
+            child: buildColumn(0),
           ),
+          Flexible(child: buildColumn(1)),
           Flexible(
-              child: Container(
-            color: Colors.green,
-            child: ListView.builder(
-              itemCount: secondList.length,
-              itemBuilder: (context, index) => EditableCardList(
-                const ListTile(title: Text("List2")),
-                model: secondList[index],
-                onChanged: (updatedModel) {
-                  secondList[index] = updatedModel;
-                },
-              ),
-            ),
-          )),
-          Flexible(
-            child: Container(
-              color: Colors.purple,
-              child: ListView.builder(
-                itemCount: thirdList.length,
-                itemBuilder: (context, index) => EditableCardList(
-                  const ListTile(title: Text("List1")),
-                  model: thirdList[index],
-                  onChanged: (updatedModel) {
-                    thirdList[index] = updatedModel;
-                  },
-                ),
-              ),
-            ),
+            child: buildColumn(2),
           ),
-        ],
-      ),
-      floatingActionButton: Wrap(
-        //will break to another line on overflow
-        direction: Axis.horizontal, //use vertical to show  on vertical axis
-        children: <Widget>[
-          Container(
-              padding: const EdgeInsets.only(right: 5),
-              child: FloatingActionButton(
-                onPressed: _addCard,
-                tooltip: 'Add Card',
-                backgroundColor: Colors.green,
-                child: const Icon(Icons.add),
-              )),
-          //button first
-          Container(
-              //margin: const EdgeInsets.all(35),
-              padding: const EdgeInsets.only(right: 5),
-              child: FloatingActionButton(
-                onPressed: _addCard,
-                tooltip: 'Add Card',
-                backgroundColor: Colors.green,
-                child: const Icon(Icons.add),
-              )),
-          Container(
-              padding: const EdgeInsets.only(right: 5),
-              child: FloatingActionButton(
-                onPressed: _addCard,
-                tooltip: 'Add Card',
-                backgroundColor: Colors.green,
-                child: const Icon(Icons.add),
-              )),
-          Container(
-              padding: const EdgeInsets.only(right: 5),
-              child: FloatingActionButton(
-                onPressed: _addCard,
-                tooltip: 'Add Card',
-                backgroundColor: Colors.green,
-                child: const Icon(Icons.add),
-              )),
-          Container(
-              padding: const EdgeInsets.only(right: 5),
-              child: FloatingActionButton(
-                onPressed: _addCard,
-                tooltip: 'Add Card',
-                backgroundColor: Colors.green,
-                child: const Icon(Icons.add),
-              )),
-          Container(
-              padding: const EdgeInsets.only(right: 5),
-              child: FloatingActionButton(
-                onPressed: _deleteCard,
-                tooltip: 'Delete Card',
-                backgroundColor: Colors.red,
-                child: const Icon(Icons.remove),
-              )), // button third
-          // Add more buttons here
         ],
       ),
     );
