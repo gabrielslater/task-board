@@ -78,6 +78,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                 itemBuilder: (context, index) {
                   var card = board.getColumnList(column)[index];
                   return KanbanCard(
+                    // Building persistent ListViews
                     // https://www.youtube.com/watch?v=kn0EOS-ZiIc&
                     key: UniqueKey(),
                     title: card.title,
@@ -201,7 +202,7 @@ class _KanbanCardState extends State<KanbanCard> {
       return Text(
         widget.title,
         style: const TextStyle(
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
       );
@@ -215,7 +216,7 @@ class _KanbanCardState extends State<KanbanCard> {
       return Text(
         widget.body,
         style: const TextStyle(
-          fontSize: 16,
+          fontSize: 14,
         ),
       );
     }
