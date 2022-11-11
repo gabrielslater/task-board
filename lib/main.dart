@@ -33,16 +33,6 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   @override
   void initState() {
     super.initState();
-
-    board.addColumn('Column 1');
-    board.addColumn('Column 2');
-    board.addColumn('Column 3');
-
-    for (var i = 0; i < board.size; i++) {
-      for (var j = 0; j < 3; j++) {
-        board.addCard(i, "Title", "Body");
-      }
-    }
   }
 
   void _addCard(int column) {
