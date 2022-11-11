@@ -95,21 +95,6 @@ void main() {
       expect(board.getColumnTitle(0), 'Column 1');
     });
 
-    test('moveCard sends a card from one column to another', () {
-      var board = KanbanBoardModel();
-      board.addColumn('Column A');
-      board.addColumn('Column B');
-
-      board.addCard(0, 'Title', 'Body'); // id = 0
-      board.addCard(0, 'Title', 'Body'); // id = 1
-      board.addCard(0, 'Title', 'Body'); // id = 2
-
-      board.moveCard(0, 1, 2, 0);
-
-      expect(board.getColumnSize(0), equals(2));
-      expect(board.getColumnSize(1), equals(1));
-    });
-
     test('deleteCard removes a card from a column', () {
       var board = KanbanBoardModel();
       board.addColumn('Column A');
