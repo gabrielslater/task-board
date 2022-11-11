@@ -1,135 +1,78 @@
-import 'package:final_project_kanban_board/kanban_board.dart';
-import 'package:final_project_kanban_board/kanban_card.dart';
-import 'package:final_project_kanban_board/kanban_column.dart';
+import 'package:final_project_kanban_board/kanban_model.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('Card Tests', () {
+    var card = const KanbanCardModel('Title', 'Body');
     test('updateTitle makes a deep copy and changes the card\'s title', () {
-      var card = const KanbanCardModel('Title', 'Body', 0);
       var modifiedCard = card.updateTitle('New Title');
 
       expect(modifiedCard, isNot(card));
       expect(modifiedCard.title, equals('New Title'));
       expect(modifiedCard.body, equals(card.body));
-      expect(modifiedCard.id, equals(card.id));
     });
 
     test('updateBody makes a deep copy and changes the card\'s body', () {
-      var card = const KanbanCardModel('Title', 'Body', 0);
       var modifiedCard = card.updateBody('New Body');
 
       expect(modifiedCard, isNot(card));
       expect(modifiedCard.title, equals(card.title));
       expect(modifiedCard.body, equals('New Body'));
-      expect(modifiedCard.id, equals(card.id));
     });
 
     test('Copy makes a deep copy and changes nothing', () {
-      var card = const KanbanCardModel('Title', 'Body', 0);
       var modifiedCard = card.copy();
 
       expect(modifiedCard, isNot(card));
       expect(modifiedCard.title, equals(card.title));
       expect(modifiedCard.body, equals(card.body));
-      expect(modifiedCard.id, equals(card.id));
     });
   });
 
   group('Column Tests', () {
-    test('renameColumn renames a column', () {
-      var column = KanbanColumnModel('Column A');
+    var column = KanbanColumnModel('Column A');
+    var card = const KanbanCardModel("Title", "Body");
 
+    test('renameColumn renames a column', () {
       expect(column.title, equals('Column A'));
       column.renameColumn('Column 1');
 
       expect(column.title, equals('Column 1'));
     });
+
+    column = KanbanColumnModel('Column A');
+
     group('addNewCard', () {
       test('addNewCard adds new card', () {
-        var column = KanbanColumnModel('Column A');
-
-        column.addNewCard("Title", "Body", 0);
+        column.addNewCard("Title", "Body");
 
         expect(column.size, equals(1));
       });
-
-      test(
-          'addNewCard adds new card only if a card with it\'s id does not already exist',
-          () {
-        var column = KanbanColumnModel('Column A');
-
-        column.addNewCard("Title", "Body", 0);
-        column.addNewCard("Title 2", "Body 2", 0);
-
-        expect(column.size, equals(1));
-
-        column.addNewCard("Title 2", "Body 2", 1);
-
-        expect(column.size, equals(2));
-      });
     });
-    group('addCard', () {
-      test('addCard adds an existing card', () {
-        var column = KanbanColumnModel('Column A');
 
-        var card = const KanbanCardModel("Title", "Body", 0);
+    column = KanbanColumnModel('Column A');
 
-        column.addCard(card);
+    test('addCard adds an existing card', () {
+      column.addCard(card);
 
-        expect(column.size, equals(1));
-        expect(column.getCardById(0), equals(card));
-      });
-
-      test(
-          'addCard adds new card only if a card with it\'s id does not already exist',
-          () {
-        var column = KanbanColumnModel('Column A');
-
-        var card_1 = const KanbanCardModel("Title", "Body", 0);
-        var card_2 = const KanbanCardModel("Title 2", "Body 2", 0);
-
-        column.addCard(card_1);
-        column.addCard(card_2);
-
-        expect(column.size, equals(1));
-        expect(column.getCardById(0), card_1);
-
-        var card_3 = const KanbanCardModel("Title 2", "Body 2", 1);
-
-        column.addCard(card_3);
-
-        expect(column.size, equals(2));
-        expect(column.getCardById(1), card_3);
-      });
+      expect(column.size, equals(1));
+      expect(column.getCard(0), equals(card));
     });
-    test('getCardById returns the correct card', () {
-      var column = KanbanColumnModel('Column A');
 
-      column.addNewCard('Title 0', 'Body', 0);
-      column.addNewCard('Title 1', 'Body', 1);
-      column.addNewCard('Title 2', 'Body', 2);
+    column = KanbanColumnModel('Column A');
 
-      expect(column.getCardById(0).title, equals('Title 0'));
+    test('getCard returns the correct card', () {
+      column.addNewCard('Title 0', 'Body');
+      column.addNewCard('Title 1', 'Body');
+      column.addNewCard('Title 2', 'Body');
+
+      expect(column.getCard(0).title, equals('Title 0'));
     });
-    test('hasCard returns true when the card exists', () {
-      var column = KanbanColumnModel('Column A');
 
-      column.addNewCard('Title 0', 'Body', 0);
+    test('removeCard returns the card it removed', () {
+      column.addCard(card);
 
-      expect(column.hasCard(0), equals(true));
-      expect(column.hasCard(100), equals(false));
-    });
-    test('removeCardById returns the card it removed', () {
-      var column = KanbanColumnModel('Column A');
-
-      column.addNewCard('Title 0', 'Body', 0);
-
-      expect(column.hasCard(0), equals(true));
-
-      var card = column.removeCardById(0);
-
-      expect(card.id, equals(0));
+      expect(column.removeCard(0), equals(card));
     });
   });
 
@@ -152,16 +95,6 @@ void main() {
       expect(board.getColumnTitle(0), 'Column 1');
     });
 
-    test('columnHasCard returns true when a column has a card with id N', () {
-      var board = KanbanBoardModel();
-      board.addColumn('Column A');
-
-      board.addCard(0, "Title", "Body");
-
-      expect(board.columnHasCard(0, 0), equals(true));
-      expect(board.columnHasCard(0, 10), equals(false));
-    });
-
     test('moveCard sends a card from one column to another', () {
       var board = KanbanBoardModel();
       board.addColumn('Column A');
@@ -171,27 +104,22 @@ void main() {
       board.addCard(0, 'Title', 'Body'); // id = 1
       board.addCard(0, 'Title', 'Body'); // id = 2
 
-      expect(board.columnHasCard(0, 2), equals(true));
-      expect(board.columnHasCard(1, 2), equals(false));
-
       board.moveCard(0, 1, 2);
 
-      expect(board.columnHasCard(0, 2), equals(false));
-      expect(board.columnHasCard(1, 2), equals(true));
+      expect(board.getColumnSize(0), equals(2));
+      expect(board.getColumnSize(1), equals(1));
     });
 
-    test('deleteCard removes the expected card', () {
+    test('deleteCard removes a card from a column', () {
       var board = KanbanBoardModel();
       board.addColumn('Column A');
 
       board.addCard(0, 'Title', 'Body');
       board.addCard(0, 'Title', 'Body');
 
-      expect(board.columnHasCard(0, 1), equals(true));
-
       board.deleteCard(0, 1);
 
-      expect(board.columnHasCard(0, 1), equals(false));
+      expect(board.getColumnSize(0), equals(1));
     });
   });
 }

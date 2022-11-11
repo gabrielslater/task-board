@@ -1,4 +1,4 @@
-import 'package:final_project_kanban_board/kanban_board.dart';
+import 'package:final_project_kanban_board/kanban_model.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const KanbanApp());
@@ -91,15 +91,14 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                     key: UniqueKey(),
                     title: card.title,
                     body: card.body,
-                    id: card.id,
-                    onEdit: (String title, String body, int id) {
+                    onEdit: (String title, String body) {
                       setState(() {
-                        board.modifyCard(column, id, title, body);
+                        board.modifyCard(column, index, title, body);
                       });
                     },
-                    onDelete: (int id) {
+                    onDelete: () {
                       setState(() {
-                        board.deleteCard(column, id);
+                        board.deleteCard(column, index);
                       });
                     },
                   );
@@ -138,16 +137,14 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
 class KanbanCard extends StatefulWidget {
   final String title;
   final String body;
-  final int id;
 
-  final Function(String title, String body, int id) onEdit;
-  final Function(int id) onDelete;
+  final Function(String title, String body) onEdit;
+  final Function() onDelete;
 
   const KanbanCard({
     Key? key,
     required this.title,
     required this.body,
-    required this.id,
     required this.onEdit,
     required this.onDelete,
   }) : super(key: key);
@@ -240,7 +237,6 @@ class _KanbanCardState extends State<KanbanCard> {
             widget.onEdit(
               _titleEditingController.text,
               _bodyEditingController.text,
-              widget.id,
             );
             _isEditingText = false;
           });
@@ -262,6 +258,6 @@ class _KanbanCardState extends State<KanbanCard> {
   }
 
   void onDelete() {
-    widget.onDelete(widget.id);
+    widget.onDelete();
   }
 }
