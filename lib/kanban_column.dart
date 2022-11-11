@@ -50,4 +50,9 @@ class KanbanColumnModel {
   String toString() {
     return 'KanbanColumnModel{_title: $_title, _cards: $_cards}';
   }
+
+  void modifyCard(int id, String title, String body) {
+    var index = _cards.indexWhere((card) => card.id == id);
+    _cards[index] = _cards[index].updateTitle(title).updateBody(body);
+  }
 }

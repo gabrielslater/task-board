@@ -45,4 +45,8 @@ class KanbanBoardModel {
       _columns[index].removeCardById(id);
     }
   }
+
+  void modifyCard(int index, int id, String title, String body) {
+    _columns[index].modifyCard(id, title, body);
+  }
 }
