@@ -13,7 +13,7 @@ class KanbanBoardModel {
     _columns.add(KanbanColumnModel(title));
   }
 
-  void renameColumn(int index, String title) {
+  void retitle(int index, String title) {
     _columns[index].renameColumn(title);
   }
 

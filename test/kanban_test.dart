@@ -84,13 +84,13 @@ void main() {
       expect(board.size, equals(1));
     });
 
-    test('renameColumn properly renames a column', () {
+    test('retitle properly renames a column', () {
       var board = KanbanBoardModel();
       board.addColumn('Column A');
 
       expect(board.getColumnTitle(0), 'Column A');
 
-      board.renameColumn(0, 'Column 1');
+      board.retitle(0, 'Column 1');
 
       expect(board.getColumnTitle(0), 'Column 1');
     });
