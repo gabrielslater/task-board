@@ -3,22 +3,18 @@ class KanbanBoardModel {
 
   int get size => _columns.length;
 
+  int getColumnSize(int index) => _columns[index].size;
+
+  List<KanbanCardModel> getColumnList(int index) => _columns[index].cards;
+
+  String getColumnTitle(int index) => _columns[index].title;
+
   void addColumn(String title) {
     _columns.add(KanbanColumnModel(title));
   }
 
   void renameColumn(int index, String title) {
     _columns[index].renameColumn(title);
-  }
-
-  int getColumnSize(int index) => _columns[index].size;
-
-  List<KanbanCardModel> getColumnList(int index) {
-    return _columns[index].cards;
-  }
-
-  String getColumnTitle(int index) {
-    return _columns[index].title;
   }
 
   void addCard(int index, String title, String body) {
@@ -51,6 +47,8 @@ class KanbanColumnModel {
 
   List<KanbanCardModel> get cards => [..._cards];
 
+  KanbanCardModel getCard(int index) => _cards[index];
+
   void renameColumn(String newTitle) {
     _title = newTitle;
   }
@@ -61,10 +59,6 @@ class KanbanColumnModel {
 
   void addCard(KanbanCardModel card) {
     _cards.add(card);
-  }
-
-  KanbanCardModel getCard(int index) {
-    return _cards[index];
   }
 
   KanbanCardModel removeCard(int index) {
