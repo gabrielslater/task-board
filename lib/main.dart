@@ -51,7 +51,8 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
     });
   }
 
-  Widget buildColumn(int column) {
+  /// Creates a widget for displaying a [KanbanColumnModel].
+  Widget _buildColumn(int column) {
     return SizedBox(
       child: Container(
         width: 350,
@@ -120,13 +121,13 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
       body: Row(
         children: [
           Flexible(
-            child: buildColumn(0),
+            child: _buildColumn(0),
           ),
           Flexible(
-            child: buildColumn(1),
+            child: _buildColumn(1),
           ),
           Flexible(
-            child: buildColumn(2),
+            child: _buildColumn(2),
           ),
         ],
       ),
@@ -134,6 +135,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   }
 }
 
+/// Creates a widget for displaying a [KanbanCardModel].
 class KanbanCard extends StatefulWidget {
   final String title;
   final String body;
