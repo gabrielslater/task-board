@@ -50,18 +50,18 @@ void main() {
       });
     });
 
-    column = KanbanColumnModel('Column A');
-
     test('addCard adds an existing card', () {
+      var column = KanbanColumnModel('Column A');
+
       column.addCard(card);
 
       expect(column.size, equals(1));
       expect(column.getCard(0), equals(card));
     });
 
-    column = KanbanColumnModel('Column A');
-
     test('getCard returns the correct card', () {
+      var column = KanbanColumnModel('Column A');
+
       column.addNewCard('Title 0', 'Body');
       column.addNewCard('Title 1', 'Body');
       column.addNewCard('Title 2', 'Body');
@@ -70,6 +70,8 @@ void main() {
     });
 
     test('removeCard returns the card it removed', () {
+      var column = KanbanColumnModel('Column A');
+
       column.addCard(card);
 
       expect(column.removeCard(0), equals(card));
