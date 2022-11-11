@@ -13,8 +13,8 @@ class KanbanBoardModel {
     _columns.add(KanbanColumnModel(title));
   }
 
-  void retitle(int index, String title) {
-    _columns[index].renameColumn(title);
+  void retitleColumn(int index, String title) {
+    _columns[index].retitle(title);
   }
 
   void addCard(int index, String title, String body) {
@@ -44,7 +44,7 @@ class KanbanColumnModel {
 
   KanbanCardModel getCard(int index) => _cards[index];
 
-  void renameColumn(String newTitle) {
+  void retitle(String newTitle) {
     _title = newTitle;
   }
 

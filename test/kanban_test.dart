@@ -33,9 +33,9 @@ void main() {
     var column = KanbanColumnModel('Column A');
     var card = const KanbanCardModel("Title", "Body");
 
-    test('renameColumn renames a column', () {
+    test('retitle renames a column', () {
       expect(column.title, equals('Column A'));
-      column.renameColumn('Column 1');
+      column.retitle('Column 1');
 
       expect(column.title, equals('Column 1'));
     });
@@ -86,13 +86,13 @@ void main() {
       expect(board.size, equals(1));
     });
 
-    test('retitle properly renames a column', () {
+    test('retitleColumn properly renames a column', () {
       var board = KanbanBoardModel();
       board.addColumn('Column A');
 
       expect(board.getColumnTitle(0), 'Column A');
 
-      board.retitle(0, 'Column 1');
+      board.retitleColumn(0, 'Column 1');
 
       expect(board.getColumnTitle(0), 'Column 1');
     });
