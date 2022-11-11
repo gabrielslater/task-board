@@ -40,7 +40,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
     board.addColumn('Column 2');
     board.addColumn('Column 3');
 
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < board.size; i++) {
       for (var j = 0; j < 3; j++) {
         board.addCard(i, "Title", "Body");
       }
@@ -84,19 +84,28 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
             ),
             Expanded(
               child: ListView.builder(
+                controller: ScrollController(),
                 itemCount: board.getColumnList(column).length,
-                itemBuilder: (context, index) => KanbanCard(
-                  ListTile(title: Text(board.getColumnTitle(column))),
-                  model: board.getColumnList(column)[index],
-                  onDelete: (model) {
-                    setState(() {
-                      print(board.getColumnList(column)[index]);
-                      print(model);
-                      print('intended id ${model.id}');
-                      board.deleteCard(column, model.id);
-                    });
-                  },
-                ),
+                itemBuilder: (context, index) {
+                  var card = board.getColumnList(column)[index];
+                  return KanbanCard(
+                    // https://www.youtube.com/watch?v=kn0EOS-ZiIc&
+                    key: UniqueKey(),
+                    title: card.title,
+                    body: card.body,
+                    id: card.id,
+                    onEdit: (String title, String body, int id) {
+                      setState(() {
+                        board.modifyCard(column, id, title, body);
+                      });
+                    },
+                    onDelete: (int id) {
+                      setState(() {
+                        board.deleteCard(column, id);
+                      });
+                    },
+                  );
+                },
               ),
             )
           ],
@@ -116,7 +125,9 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
           Flexible(
             child: buildColumn(0),
           ),
-          Flexible(child: buildColumn(1)),
+          Flexible(
+            child: buildColumn(1),
+          ),
           Flexible(
             child: buildColumn(2),
           ),
