@@ -55,7 +55,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
     return SizedBox(
       child: Container(
         width: 350,
-        color: column % 2 == 0 ? Colors.white24 : Colors.white,
+        color: Colors.black12,
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
         child: Column(
@@ -180,7 +180,7 @@ class _KanbanCardState extends State<KanbanCard> {
     return Container(
       color: Colors.white,
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -212,7 +212,7 @@ class _KanbanCardState extends State<KanbanCard> {
       return Text(
         widget.title,
         style: const TextStyle(
-          fontSize: 14,
+          fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
       );
@@ -223,7 +223,12 @@ class _KanbanCardState extends State<KanbanCard> {
     if (_isEditingText) {
       return TextField(controller: _bodyEditingController);
     } else {
-      return Text(widget.body);
+      return Text(
+        widget.body,
+        style: const TextStyle(
+          fontSize: 16,
+        ),
+      );
     }
   }
 
