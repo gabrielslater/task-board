@@ -21,9 +21,11 @@ class KanbanBoardModel {
     _columns[index].addNewCard(title, body);
   }
 
-  void moveCard(int fromIndex, int toIndex, int index) {
-    var card = _columns[fromIndex].removeCard(index);
-    _columns[toIndex].addCard(card);
+  /// Moves a [KanbanCardModel] at [fromIndex] in column [fromColumn] to
+  /// [toIndex] in [toColumn]
+  void moveCard(int fromColumn, int toColumn, int fromIndex, int toIndex) {
+    var card = _columns[fromColumn].removeCard(fromIndex);
+    _columns[toColumn].addCardAt(toIndex, card);
   }
 
   void deleteCard(int colIndex, int cardIndex) {
@@ -67,6 +69,10 @@ class KanbanColumnModel {
 
   void modifyCard(int index, String title, String body) {
     _cards[index] = _cards[index].updateTitle(title).updateBody(body);
+  }
+
+  void addCardAt(int index, KanbanCardModel card) {
+    _cards.insert(index, card);
   }
 
   @override

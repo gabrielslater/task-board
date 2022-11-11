@@ -104,7 +104,7 @@ void main() {
       board.addCard(0, 'Title', 'Body'); // id = 1
       board.addCard(0, 'Title', 'Body'); // id = 2
 
-      board.moveCard(0, 1, 2);
+      board.moveCard(0, 1, 2, 0);
 
       expect(board.getColumnSize(0), equals(2));
       expect(board.getColumnSize(1), equals(1));
