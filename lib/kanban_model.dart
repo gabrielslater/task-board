@@ -3,7 +3,7 @@ class KanbanBoardModel {
 
   int get size => _columns.length;
 
-  KanbanBoardModel() {
+  void init() {
     addColumn('To do');
     addColumn('Working on');
     addColumn('Finished');

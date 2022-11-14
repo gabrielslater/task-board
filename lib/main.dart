@@ -33,6 +33,8 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   @override
   void initState() {
     super.initState();
+
+    board.init();
   }
 
   void _addCard(int column) {
