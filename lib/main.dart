@@ -1,6 +1,13 @@
+import 'dart:io';
+
 import 'package:final_project_kanban_board/kanban_model.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
+//
+// Lines 163 and 164
+// Line 262 and on
+//
 void main() => runApp(const KanbanApp());
 
 class KanbanApp extends StatelessWidget {
@@ -33,8 +40,6 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   @override
   void initState() {
     super.initState();
-
-    board.init();
   }
 
   void _addCard(int column) {
@@ -158,6 +163,8 @@ class _KanbanCardState extends State<KanbanCard> {
     super.initState();
     _titleEditingController = TextEditingController(text: widget.title);
     _bodyEditingController = TextEditingController(text: widget.body);
+    writeTextToJson(_titleEditingController.toString());
+    writeTextToJson(_bodyEditingController.toString());
   }
 
   @override
@@ -210,7 +217,7 @@ class _KanbanCardState extends State<KanbanCard> {
       );
     }
   }
-
+  
   Widget get body {
     if (_isEditingText) {
       return TextField(controller: _bodyEditingController);
@@ -233,6 +240,7 @@ class _KanbanCardState extends State<KanbanCard> {
               _titleEditingController.text,
               _bodyEditingController.text,
             );
+
             _isEditingText = false;
           });
         },
@@ -252,7 +260,26 @@ class _KanbanCardState extends State<KanbanCard> {
     }
   }
 
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/textInput.txt');
+  }
+
+  Future<File> writeTextToJson(String text) async {
+    final file = await _localFile;
+
+    return file.writeAsString(text);
+  }
+
   void onDelete() {
     widget.onDelete();
   }
 }
+
+
