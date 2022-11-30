@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:final_project_kanban_board/kanban_model.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -8,6 +8,8 @@ import 'package:path_provider/path_provider.dart';
 // Lines 163 and 164
 // Line 262 and on
 //
+const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+
 void main() => runApp(const KanbanApp());
 
 class KanbanApp extends StatelessWidget {
@@ -189,6 +191,7 @@ class _KanbanCardState extends State<KanbanCard> {
               title,
               const Spacer(),
               _buildEditButton(),
+              DropdownButtonExample(),
               IconButton(
                 onPressed: onDelete,
                 icon: const Icon(Icons.delete),
@@ -217,7 +220,7 @@ class _KanbanCardState extends State<KanbanCard> {
       );
     }
   }
-  
+
   Widget get body {
     if (_isEditingText) {
       return TextField(controller: _bodyEditingController);
@@ -282,4 +285,39 @@ class _KanbanCardState extends State<KanbanCard> {
   }
 }
 
+class DropdownButtonExample extends StatefulWidget {
+  const DropdownButtonExample({super.key});
 
+  @override
+  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+}
+
+class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+  String dropdownValue = list.first;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      //value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+}
