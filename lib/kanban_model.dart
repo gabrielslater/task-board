@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'kanban_model.g.dart';
+
 class KanbanBoardModel {
   final List<KanbanColumnModel> _columns = [];
 
@@ -93,31 +97,37 @@ class KanbanColumnModel {
   }
 }
 
+@JsonSerializable()
 class KanbanCardModel {
-  final String _title;
+  final String title;
 
-  String get title => _title;
+  // String get title => _title;
 
-  final String _body;
+  final String body;
 
-  String get body => _body;
+  // String get body => _body;
 
-  const KanbanCardModel(this._title, this._body);
+  const KanbanCardModel(this.title, this.body);
+
+  factory KanbanCardModel.fromJson(Map<String, dynamic> json) =>
+      _$KanbanCardModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KanbanCardModelToJson(this);
 
   KanbanCardModel updateTitle(String title) {
-    return KanbanCardModel(title, _body);
+    return KanbanCardModel(title, body);
   }
 
   KanbanCardModel updateBody(String body) {
-    return KanbanCardModel(_title, body);
+    return KanbanCardModel(title, body);
   }
 
   KanbanCardModel copy() {
-    return KanbanCardModel(_title, _body);
+    return KanbanCardModel(title, body);
   }
 
   @override
   String toString() {
-    return 'KanbanCardModel{_title: $_title, _body: $_body}';
+    return 'KanbanCardModel{_title: $title, _body: $body}';
   }
 }
