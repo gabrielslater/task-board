@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'kanban_model.g.dart';
 
+@JsonSerializable()
 class KanbanBoardModel {
   final List<KanbanColumnModel> _columns = [];
 
@@ -21,7 +22,7 @@ class KanbanBoardModel {
 
   int getColumnSize(int index) => _columns[index].size;
 
-  List<KanbanCardModel> getColumnList(int index) => _columns[index].cards;
+  List<KanbanCardModel> getColumnList(int index) => _columns[index].getCards;
 
   String getColumnTitle(int index) => _columns[index].title;
 
@@ -53,47 +54,53 @@ class KanbanBoardModel {
   }
 }
 
+@JsonSerializable()
 class KanbanColumnModel {
-  late String _title;
-  final List<KanbanCardModel> _cards = [];
+  late String title;
+  final List<KanbanCardModel> cards = [];
 
-  KanbanColumnModel(this._title);
+  KanbanColumnModel(this.title);
 
-  String get title => _title;
+  // String get title => _title;
 
-  int get size => _cards.length;
+  int get size => cards.length;
 
-  List<KanbanCardModel> get cards => [..._cards];
+  List<KanbanCardModel> get getCards => [...cards];
 
-  KanbanCardModel getCard(int index) => _cards[index];
+  KanbanCardModel getCard(int index) => cards[index];
+
+  factory KanbanColumnModel.fromJson(Map<String, dynamic> json) =>
+      _$KanbanColumnModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KanbanColumnModelToJson(this);
 
   void retitle(String newTitle) {
-    _title = newTitle;
+    title = newTitle;
   }
 
   void addNewCard(String title, String body) {
-    _cards.add(KanbanCardModel(title, body));
+    cards.add(KanbanCardModel(title, body));
   }
 
   void addCard(KanbanCardModel card) {
-    _cards.add(card);
+    cards.add(card);
   }
 
   KanbanCardModel removeCard(int index) {
-    return _cards.removeAt(index);
+    return cards.removeAt(index);
   }
 
   void modifyCard(int index, String title, String body) {
-    _cards[index] = _cards[index].updateTitle(title).updateBody(body);
+    cards[index] = cards[index].updateTitle(title).updateBody(body);
   }
 
   void addCardAt(int index, KanbanCardModel card) {
-    _cards.insert(index, card);
+    cards.insert(index, card);
   }
 
   @override
   String toString() {
-    return 'KanbanColumnModel{_title: $_title, _cards: $_cards}';
+    return 'KanbanColumnModel{_title: $title, _cards: $cards}';
   }
 }
 
