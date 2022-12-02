@@ -7,10 +7,16 @@ part of 'kanban_model.dart';
 // **************************************************************************
 
 KanbanBoardModel _$KanbanBoardModelFromJson(Map<String, dynamic> json) =>
-    KanbanBoardModel();
+    KanbanBoardModel(
+      (json['columns'] as List<dynamic>?)
+          ?.map((e) => KanbanColumnModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$KanbanBoardModelToJson(KanbanBoardModel instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{
+      'columns': instance.columns,
+    };
 
 KanbanColumnModel _$KanbanColumnModelFromJson(Map<String, dynamic> json) =>
     KanbanColumnModel(

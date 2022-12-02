@@ -4,9 +4,12 @@ part 'kanban_model.g.dart';
 
 @JsonSerializable()
 class KanbanBoardModel {
-  final List<KanbanColumnModel> _columns = [];
+  final List<KanbanColumnModel> columns;
 
-  int get size => _columns.length;
+  int get size => columns.length;
+
+  KanbanBoardModel([List<KanbanColumnModel>? columns])
+      : columns = columns ?? [];
 
   void init() {
     addColumn('To do');
@@ -20,37 +23,42 @@ class KanbanBoardModel {
     }
   }
 
-  int getColumnSize(int index) => _columns[index].size;
+  factory KanbanBoardModel.fromJson(Map<String, dynamic> json) =>
+      _$KanbanBoardModelFromJson(json);
 
-  List<KanbanCardModel> getColumnList(int index) => _columns[index].getCards;
+  Map<String, dynamic> toJson() => _$KanbanBoardModelToJson(this);
 
-  String getColumnTitle(int index) => _columns[index].title;
+  int getColumnSize(int index) => columns[index].size;
+
+  List<KanbanCardModel> getColumnList(int index) => columns[index].getCards;
+
+  String getColumnTitle(int index) => columns[index].title;
 
   void addColumn(String title) {
-    _columns.add(KanbanColumnModel(title));
+    columns.add(KanbanColumnModel(title));
   }
 
   void retitleColumn(int index, String title) {
-    _columns[index].retitle(title);
+    columns[index].retitle(title);
   }
 
   void addCard(int index, String title, String body) {
-    _columns[index].addNewCard(title, body);
+    columns[index].addNewCard(title, body);
   }
 
   /// Moves a [KanbanCardModel] at [fromIndex] in column [fromColumn] to
   /// [toIndex] in [toColumn]
   void moveCard(int fromColumn, int toColumn, int fromIndex, int toIndex) {
-    var card = _columns[fromColumn].removeCard(fromIndex);
-    _columns[toColumn].addCardAt(toIndex, card);
+    var card = columns[fromColumn].removeCard(fromIndex);
+    columns[toColumn].addCardAt(toIndex, card);
   }
 
   void deleteCard(int colIndex, int cardIndex) {
-    _columns[colIndex].removeCard(cardIndex);
+    columns[colIndex].removeCard(cardIndex);
   }
 
   void modifyCard(int colIndex, int cardIndex, String title, String body) {
-    _columns[colIndex].modifyCard(cardIndex, title, body);
+    columns[colIndex].modifyCard(cardIndex, title, body);
   }
 }
 
