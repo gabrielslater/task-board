@@ -34,6 +34,9 @@ class KanbanMainPage extends StatefulWidget {
 class _KanbanMainPageState extends State<KanbanMainPage> {
   KanbanBoardModel board = KanbanBoardModel();
   final LocalStoreManager manager = LocalStoreManager();
+  late SnackBar saveSnackBar = const SnackBar(content: Text('Saved slot'));
+  late SnackBar loadSnackBar = const SnackBar(content: Text('Loaded slot'));
+  late SnackBar deleteSnackBar = const SnackBar(content: Text('Deleted slot'));
 
   @override
   void initState() {
@@ -152,7 +155,10 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                   'time': getDateString(),
                   'board': board.toJson(),
                 });
+
                 Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(saveSnackBar);
               },
               child: const Text("Save"),
             ),
@@ -171,6 +177,8 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                       if (!mounted) return;
 
                       Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(loadSnackBar);
                     },
               child: const Text("Load"),
             ),
@@ -180,7 +188,10 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
             ElevatedButton(
               onPressed: () {
                 manager.delete(slot);
+
                 Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(deleteSnackBar);
               },
               child: const Text("Delete"),
             ),
