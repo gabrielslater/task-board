@@ -108,6 +108,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const KanbanNavigationDrawer(),
       appBar: AppBar(
         title: Text(widget.title),
       ),
