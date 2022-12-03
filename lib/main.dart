@@ -108,7 +108,12 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const KanbanNavigationDrawer(),
+      drawer: KanbanNavigationDrawer(
+        onSave: () {},
+        onLoad: () {},
+        onImportExport: () {},
+        onHelp: () {},
+      ),
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -259,7 +264,28 @@ class _KanbanCardState extends State<KanbanCard> {
 }
 
 class KanbanNavigationDrawer extends StatelessWidget {
-  const KanbanNavigationDrawer({Key? key}) : super(key: key);
+  const KanbanNavigationDrawer(
+      {Key? key,
+      required this.onSave,
+      required this.onLoad,
+      required this.onImportExport,
+      required this.onHelp})
+      : super(key: key);
+
+  final Function() onSave;
+  final Function() onLoad;
+  final Function() onImportExport;
+  final Function() onHelp;
+
+  Widget buildListTile(String title, Icon leading, Function onTap) {
+    return ListTile(
+      title: Text(title),
+      leading: leading,
+      onTap: () {
+        onTap();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -287,34 +313,11 @@ class KanbanNavigationDrawer extends StatelessWidget {
     final drawerItems = ListView(
       children: <Widget>[
         header,
-        ListTile(
-          title: const Text("Save"),
-          leading: const Icon(Icons.save),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          title: const Text("Load"),
-          leading: const Icon(Icons.folder),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          title: const Text("Import/Export"),
-          leading: const Icon(Icons.import_export),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          title: const Text("Help"),
-          leading: const Icon(Icons.question_mark),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
+        buildListTile("Save", const Icon(Icons.save), onSave),
+        buildListTile("Load", const Icon(Icons.folder), onLoad),
+        buildListTile(
+            "Import/Export", const Icon(Icons.import_export), onImportExport),
+        buildListTile("Help", const Icon(Icons.help), onHelp),
       ],
     );
 
