@@ -26,7 +26,15 @@ class KanbanBoardModel {
   factory KanbanBoardModel.fromJson(Map<String, dynamic> json) =>
       _$KanbanBoardModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KanbanBoardModelToJson(this);
+  Map<String, dynamic> toJson() {
+    var cols = [];
+
+    for (var col in columns) {
+      cols.add(col.toJson());
+    }
+
+    return {'columns': cols};
+  }
 
   int getColumnSize(int index) => columns[index].size;
 
@@ -65,7 +73,7 @@ class KanbanBoardModel {
 @JsonSerializable()
 class KanbanColumnModel {
   late String title;
-  final List<KanbanCardModel> cards = [];
+  List<KanbanCardModel> cards = [];
 
   KanbanColumnModel(this.title);
 
@@ -80,7 +88,18 @@ class KanbanColumnModel {
   factory KanbanColumnModel.fromJson(Map<String, dynamic> json) =>
       _$KanbanColumnModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KanbanColumnModelToJson(this);
+  Map<String, dynamic> toJson() {
+    var cardsJson = [];
+
+    for (var card in cards) {
+      cardsJson.add(card.toJson());
+    }
+
+    return {
+      'title': title,
+      'cards': cardsJson,
+    };
+  }
 
   void retitle(String newTitle) {
     title = newTitle;
@@ -143,6 +162,7 @@ class KanbanCardModel {
 
   @override
   String toString() {
+    // TODO: rename variables in Strings
     return 'KanbanCardModel{_title: $title, _body: $body}';
   }
 }

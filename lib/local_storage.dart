@@ -2,16 +2,17 @@ import 'package:localstore/localstore.dart';
 
 class LocalStoreManager {
   final _db = Localstore.instance;
+  final path = 'board';
 
-  void saveToStorage(String key, Map<String, dynamic> data) {
-    var id = _db.collection('board').doc().id;
-
-    _db.collection('board').doc(id).set(data);
+  void saveToStorage(String key, dynamic data) {
+    _db.collection(path).doc(key).set(data);
   }
 
-  Future<Map<String, dynamic>?> loadFromStorage(String key) async {
-    var id = _db.collection('todos').doc().id;
+  Future<dynamic> loadFromStorage(String key) async {
+    return await _db.collection(path).doc(key).get();
+  }
 
-    return await _db.collection('todos').doc(id).get();
+  void delete(String key) {
+    _db.collection(path).doc(key).delete();
   }
 }

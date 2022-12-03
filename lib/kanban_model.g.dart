@@ -21,11 +21,14 @@ Map<String, dynamic> _$KanbanBoardModelToJson(KanbanBoardModel instance) =>
 KanbanColumnModel _$KanbanColumnModelFromJson(Map<String, dynamic> json) =>
     KanbanColumnModel(
       json['title'] as String,
-    );
+    )..cards = (json['cards'] as List<dynamic>)
+        .map((e) => KanbanCardModel.fromJson(e as Map<String, dynamic>))
+        .toList();
 
 Map<String, dynamic> _$KanbanColumnModelToJson(KanbanColumnModel instance) =>
     <String, dynamic>{
       'title': instance.title,
+      'cards': instance.cards,
     };
 
 KanbanCardModel _$KanbanCardModelFromJson(Map<String, dynamic> json) =>

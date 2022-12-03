@@ -110,31 +110,79 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
     );
   }
 
-  Widget _buildDialogOption(BuildContext context, int slot) {
+  Future<String> getSlotTitle(slot) async {
+    var slotInfo = await manager.loadFromStorage(slot);
+
+    return slotInfo != null ? 'saved at ${slotInfo['time']}' : '(empty)';
+  }
+
+  Future<Widget> _buildDialogOption(BuildContext context, String slot) async {
+    var slotInfo = await manager.loadFromStorage(slot);
+
     return Container(
       color: Colors.black12,
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
       child: SizedBox(
-        width: 350,
+        width: 450,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text("title"),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Slot $slot',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  await getSlotTitle(slot),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ],
+            ),
             const Spacer(
               flex: 2,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                manager.saveToStorage(slot, {
+                  'time': getDateString(),
+                  'board': board.toJson(),
+                });
+                Navigator.of(context).pop();
+              },
               child: const Text("Save"),
             ),
             const SizedBox(
               width: 10,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: slotInfo == null
+                  ? null
+                  : () async {
+                      var slotData = await manager.loadFromStorage(slot);
+                      setState(() {
+                        board = KanbanBoardModel.fromJson(slotData!['board']);
+                      });
+
+                      if (!mounted) return;
+
+                      Navigator.of(context).pop();
+                    },
               child: const Text("Load"),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                manager.delete(slot);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Delete"),
             ),
           ],
         ),
@@ -143,17 +191,19 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   }
 
   Future<void> _buildSaveLoadDialog(BuildContext context) async {
+    var slots = [
+      await _buildDialogOption(context, '1'),
+      await _buildDialogOption(context, '2'),
+      await _buildDialogOption(context, '3'),
+      await _buildDialogOption(context, '4'),
+      await _buildDialogOption(context, '5'),
+    ];
+
     await showDialog<String>(
       context: context,
       builder: (BuildContext context) => SimpleDialog(
         title: const Text("Save or load a board"),
-        children: [
-          _buildDialogOption(context, 1),
-          _buildDialogOption(context, 2),
-          _buildDialogOption(context, 3),
-          _buildDialogOption(context, 4),
-          _buildDialogOption(context, 5),
-        ],
+        children: slots,
       ),
     );
   }
@@ -186,6 +236,17 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
         ],
       ),
     );
+  }
+
+  String getDateString() {
+    var now = DateTime.now();
+
+    return '${now.year.toString()}-'
+        '${now.month.toString().padLeft(2, '0')}-'
+        '${now.day.toString().padLeft(2, '0')} '
+        '${now.hour.toString().padLeft(2, '0')}:'
+        '${now.minute.toString().padLeft(2, '0')}:'
+        '${now.second.toString().padLeft(2, '0')}';
   }
 }
 
