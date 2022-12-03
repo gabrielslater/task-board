@@ -1,7 +1,11 @@
 import 'package:final_project_kanban_board/kanban_model.dart';
+import 'package:final_project_kanban_board/local_storage.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const KanbanApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const KanbanApp());
+}
 
 class KanbanApp extends StatelessWidget {
   const KanbanApp({Key? key}) : super(key: key);
@@ -29,6 +33,7 @@ class KanbanMainPage extends StatefulWidget {
 
 class _KanbanMainPageState extends State<KanbanMainPage> {
   KanbanBoardModel board = KanbanBoardModel();
+  final LocalStoreManager manager = LocalStoreManager();
 
   @override
   void initState() {
