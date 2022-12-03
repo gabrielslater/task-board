@@ -223,10 +223,9 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: KanbanNavigationDrawer(
-        onSave: () {
+        onSaveLoad: () {
           _buildSaveLoadDialog(context);
         },
-        onLoad: () {},
         onImportExport: () {},
         onHelp: () {},
       ),
@@ -393,14 +392,12 @@ class _KanbanCardState extends State<KanbanCard> {
 class KanbanNavigationDrawer extends StatelessWidget {
   const KanbanNavigationDrawer(
       {Key? key,
-      required this.onSave,
-      required this.onLoad,
+      required this.onSaveLoad,
       required this.onImportExport,
       required this.onHelp})
       : super(key: key);
 
-  final Function() onSave;
-  final Function() onLoad;
+  final Function() onSaveLoad;
   final Function() onImportExport;
   final Function() onHelp;
 
@@ -440,8 +437,7 @@ class KanbanNavigationDrawer extends StatelessWidget {
     final drawerItems = ListView(
       children: <Widget>[
         header,
-        buildListTile("Save", const Icon(Icons.save), onSave),
-        buildListTile("Load", const Icon(Icons.folder), onLoad),
+        buildListTile("Save/Load", const Icon(Icons.save), onSaveLoad),
         buildListTile(
             "Import/Export", const Icon(Icons.import_export), onImportExport),
         buildListTile("Help", const Icon(Icons.help), onHelp),
