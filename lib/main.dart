@@ -105,11 +105,61 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
     );
   }
 
+  Widget _buildDialogOption(BuildContext context, int slot) {
+    return Container(
+      color: Colors.black12,
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+      child: SizedBox(
+        width: 350,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text("title"),
+            const Spacer(
+              flex: 2,
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("Save"),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("Load"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _buildSaveLoadDialog(BuildContext context) async {
+    await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => SimpleDialog(
+        title: const Text("Save or load a board"),
+        children: [
+          _buildDialogOption(context, 1),
+          _buildDialogOption(context, 2),
+          _buildDialogOption(context, 3),
+          _buildDialogOption(context, 4),
+          _buildDialogOption(context, 5),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: KanbanNavigationDrawer(
-        onSave: () {},
+        onSave: () {
+          _buildSaveLoadDialog(context);
+        },
         onLoad: () {},
         onImportExport: () {},
         onHelp: () {},
