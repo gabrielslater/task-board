@@ -1,14 +1,5 @@
-import 'dart:io';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:final_project_kanban_board/kanban_model.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-
-//
-// Lines 163 and 164
-// Line 262 and on
-//
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
 void main() => runApp(const KanbanApp());
 
@@ -42,6 +33,8 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   @override
   void initState() {
     super.initState();
+
+    board.init();
   }
 
   void _addCard(int column) {
@@ -87,22 +80,32 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                 itemBuilder: (context, index) {
                   var card = board.getColumnList(column)[index];
                   return KanbanCard(
-                    // Building persistent ListViews
-                    // https://www.youtube.com/watch?v=kn0EOS-ZiIc&
-                    key: UniqueKey(),
-                    title: card.title,
-                    body: card.body,
-                    onEdit: (String title, String body) {
-                      setState(() {
-                        board.modifyCard(column, index, title, body);
+                      // Building persistent ListViews
+                      // https://www.youtube.com/watch?v=kn0EOS-ZiIc&
+                      key: UniqueKey(),
+                      title: card.title,
+                      body: card.body,
+                      onEdit: (String title, String body) {
+                        setState(() {
+                          board.modifyCard(column, index, title, body);
+                        });
+                      },
+                      onDelete: () {
+                        setState(() {
+                          board.deleteCard(column, index);
+                        });
+                      },
+                      onMove: () {
+                        setState(() {
+                          if (column < 2) {
+                            board.moveCard(column, column + 1, index,
+                                board.getColumnList(column + 1).length);
+                          } else if (column == 2) {
+                            board.moveCard(column, 0, index,
+                                board.getColumnList(0).length);
+                          }
+                        });
                       });
-                    },
-                    onDelete: () {
-                      setState(() {
-                        board.deleteCard(column, index);
-                      });
-                    },
-                  );
                 },
               ),
             )
@@ -142,6 +145,7 @@ class KanbanCard extends StatefulWidget {
 
   final Function(String title, String body) onEdit;
   final Function() onDelete;
+  final Function() onMove;
 
   const KanbanCard({
     Key? key,
@@ -149,6 +153,7 @@ class KanbanCard extends StatefulWidget {
     required this.body,
     required this.onEdit,
     required this.onDelete,
+    required this.onMove,
   }) : super(key: key);
 
   @override
@@ -160,13 +165,15 @@ class _KanbanCardState extends State<KanbanCard> {
   late TextEditingController _titleEditingController;
   late TextEditingController _bodyEditingController;
 
+  get column => null;
+
+  get board => null;
+
   @override
   void initState() {
     super.initState();
     _titleEditingController = TextEditingController(text: widget.title);
     _bodyEditingController = TextEditingController(text: widget.body);
-    writeTextToJson(_titleEditingController.toString());
-    writeTextToJson(_bodyEditingController.toString());
   }
 
   @override
@@ -188,14 +195,20 @@ class _KanbanCardState extends State<KanbanCard> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              title,
+              SizedBox(width: 150, child: title),
+
               const Spacer(),
               _buildEditButton(),
-              DropdownButtonExample(),
+              //DropdownButtonExample(),
               IconButton(
                 onPressed: onDelete,
                 icon: const Icon(Icons.delete),
                 color: Colors.red,
+              ),
+              IconButton(
+                onPressed: move,
+                icon: const Icon(Icons.arrow_circle_right_outlined),
+                color: Colors.blue,
               ),
             ],
           ),
@@ -243,7 +256,6 @@ class _KanbanCardState extends State<KanbanCard> {
               _titleEditingController.text,
               _bodyEditingController.text,
             );
-
             _isEditingText = false;
           });
         },
@@ -263,61 +275,12 @@ class _KanbanCardState extends State<KanbanCard> {
     }
   }
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-
-    return directory.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/textInput.txt');
-  }
-
-  Future<File> writeTextToJson(String text) async {
-    final file = await _localFile;
-
-    return file.writeAsString(text);
-  }
-
   void onDelete() {
     widget.onDelete();
   }
-}
 
-class DropdownButtonExample extends StatefulWidget {
-  const DropdownButtonExample({super.key});
-
-  @override
-  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
-}
-
-class _DropdownButtonExampleState extends State<DropdownButtonExample> {
-  String dropdownValue = list.first;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      //value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          dropdownValue = value!;
-        });
-      },
-      items: list.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
+  void move() {
+    widget.onMove();
+    onDelete();
   }
 }
