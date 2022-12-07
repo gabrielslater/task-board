@@ -2,6 +2,8 @@ import 'package:final_project_kanban_board/kanban_model.dart';
 import 'package:final_project_kanban_board/local_storage.dart';
 import 'package:flutter/material.dart';
 
+import 'date_utils.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const KanbanApp());
@@ -246,17 +248,6 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
         ],
       ),
     );
-  }
-
-  String getDateString() {
-    var now = DateTime.now();
-
-    return '${now.year.toString()}-'
-        '${now.month.toString().padLeft(2, '0')}-'
-        '${now.day.toString().padLeft(2, '0')} '
-        '${now.hour.toString().padLeft(2, '0')}:'
-        '${now.minute.toString().padLeft(2, '0')}:'
-        '${now.second.toString().padLeft(2, '0')}';
   }
 }
 
