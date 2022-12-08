@@ -246,21 +246,38 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
               width: 450,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 150,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.black12,
-                      child: TextField(
-                        minLines: 6,
-                        maxLines: null,
-                        keyboardType: TextInputType.multiline,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Paste a board\'s JSON',
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.black12,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: const [
+                            Text(
+                              'Import',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
                         ),
-                        controller: _importExportTextController,
-                      ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        SizedBox(
+                          height: 150,
+                          child: TextField(
+                            minLines: 6,
+                            maxLines: null,
+                            keyboardType: TextInputType.multiline,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Paste a board\'s JSON',
+                            ),
+                            controller: _importExportTextController,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(
@@ -274,6 +291,12 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
                         children: [
                           Row(
                             children: [
+                              const Text(
+                                'Export',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               const Spacer(),
                               IconButton(
                                   tooltip: "Copy JSON string",
