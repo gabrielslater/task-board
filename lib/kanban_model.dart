@@ -77,8 +77,6 @@ class KanbanColumnModel {
 
   KanbanColumnModel(this.title);
 
-  // String get title => _title;
-
   int get size => cards.length;
 
   List<KanbanCardModel> get getCards => [...cards];
@@ -135,11 +133,7 @@ class KanbanColumnModel {
 class KanbanCardModel {
   final String title;
 
-  // String get title => _title;
-
   final String body;
-
-  // String get body => _body;
 
   const KanbanCardModel(this.title, this.body);
 
