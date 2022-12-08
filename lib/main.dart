@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:final_project_kanban_board/local_storage.dart';
 import 'package:final_project_kanban_board/task_board_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'date_utils.dart';
 
@@ -34,22 +37,27 @@ class TaskBoardMainPage extends StatefulWidget {
 }
 
 class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
-  BoardModel board = BoardModel();
+  BoardModel _board = BoardModel();
+
+  set board(BoardModel board) => _board = board;
+
+  String get boardJson => jsonEncode(_board.toJson()).toString();
+
   final LocalStoreManager manager = LocalStoreManager();
-  late SnackBar saveSnackBar = const SnackBar(content: Text('Saved slot'));
-  late SnackBar loadSnackBar = const SnackBar(content: Text('Loaded slot'));
-  late SnackBar deleteSnackBar = const SnackBar(content: Text('Deleted slot'));
+
+  final TextEditingController _importExportTextController =
+      TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    board.init();
+    _board.init();
   }
 
   void _addCard(int column) {
     setState(() {
-      board.addCard(column, "Title", "Body");
+      _board.addCard(column, "Title", "Body");
     });
   }
 
@@ -66,7 +74,7 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
             Row(
               children: <Widget>[
                 Text(
-                  board.getColumnTitle(column),
+                  _board.getColumnTitle(column),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -86,9 +94,9 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
             Expanded(
               child: ListView.builder(
                 controller: ScrollController(),
-                itemCount: board.getColumnList(column).length,
+                itemCount: _board.getColumnList(column).length,
                 itemBuilder: (context, index) {
-                  var card = board.getColumnList(column)[index];
+                  var card = _board.getColumnList(column)[index];
                   return TaskBoardCard(
                       // Building persistent ListViews
                       // https://www.youtube.com/watch?v=kn0EOS-ZiIc&
@@ -97,22 +105,22 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
                       body: card.body,
                       onEdit: (String title, String body) {
                         setState(() {
-                          board.modifyCard(column, index, title, body);
+                          _board.modifyCard(column, index, title, body);
                         });
                       },
                       onDelete: () {
                         setState(() {
-                          board.deleteCard(column, index);
+                          _board.deleteCard(column, index);
                         });
                       },
                       onMove: () {
                         setState(() {
                           if (column < 2) {
-                            board.moveCard(column, column + 1, index,
-                                board.getColumnList(column + 1).length);
+                            _board.moveCard(column, column + 1, index,
+                                _board.getColumnList(column + 1).length);
                           } else if (column == 2) {
-                            board.moveCard(column, 0, index,
-                                board.getColumnList(0).length);
+                            _board.moveCard(column, 0, index,
+                                _board.getColumnList(0).length);
                           }
                         });
                       });
@@ -158,19 +166,15 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
                 ),
               ],
             ),
-            const Spacer(
-              flex: 2,
-            ),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 manager.saveToStorage(slot, {
                   'time': getDateString(),
-                  'board': board.toJson(),
+                  'board': _board.toJson(),
                 });
 
                 Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(saveSnackBar);
               },
               child: const Text("Save"),
             ),
@@ -189,8 +193,6 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
                       if (!mounted) return;
 
                       Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(loadSnackBar);
                     },
               child: const Text("Load"),
             ),
@@ -202,8 +204,6 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
                 manager.delete(slot);
 
                 Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(deleteSnackBar);
               },
               child: const Text("Delete"),
             ),
@@ -231,6 +231,96 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
     );
   }
 
+  Future<void> _buildImportExportDialog(BuildContext context) async {
+    var jsonString = boardJson;
+
+    await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => SimpleDialog(
+        title: const Text("Import or export a board"),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: SizedBox(
+              width: 500,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 150,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      color: Colors.black12,
+                      child: TextField(
+                        minLines: 6,
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Paste a board\'s JSON',
+                        ),
+                        controller: _importExportTextController,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      color: Colors.black12,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const Spacer(),
+                              IconButton(
+                                  onPressed: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: jsonString));
+                                  },
+                                  icon: const Icon(Icons.copy))
+                            ],
+                          ),
+                          Text(jsonString),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            board = BoardModel.fromJson(jsonDecode(
+                                _importExportTextController.text.toString()));
+                          });
+                        },
+                        child: const Text('Import'),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          _importExportTextController.text = jsonString;
+                        },
+                        child: const Text('Export'),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -238,7 +328,9 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
         onSaveLoad: () {
           _buildSaveLoadDialog(context);
         },
-        onImportExport: () {},
+        onImportExport: () {
+          _buildImportExportDialog(context);
+        },
         onHelp: () {},
       ),
       appBar: AppBar(
