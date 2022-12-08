@@ -87,6 +87,7 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
                       _addCard(column);
                     });
                   },
+                  tooltip: "Add card to column",
                   icon: const Icon(Icons.add),
                 )
               ],
@@ -275,6 +276,7 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
                             children: [
                               const Spacer(),
                               IconButton(
+                                  tooltip: "Copy JSON string",
                                   onPressed: () {
                                     Clipboard.setData(
                                         ClipboardData(text: jsonString));
@@ -418,12 +420,14 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
               IconButton(
                 onPressed: onDelete,
                 icon: const Icon(Icons.delete),
+                tooltip: "Delete card",
                 color: Colors.red,
               ),
               _isEditingText
                   ? Container()
                   : IconButton(
                       onPressed: move,
+                      tooltip: "Move card to the right",
                       icon: const Icon(Icons.arrow_circle_right_outlined),
                       color: Colors.blue,
                     ),
@@ -482,6 +486,7 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
             _isEditingText = false;
           });
         },
+        tooltip: "Finish editing card",
         icon: const Icon(Icons.check),
         color: Colors.green,
       );
@@ -492,6 +497,7 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
             _isEditingText = true;
           });
         },
+        tooltip: "Edit card",
         icon: const Icon(Icons.edit),
         color: Colors.lightBlue,
       );
