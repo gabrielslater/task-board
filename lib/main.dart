@@ -376,7 +376,7 @@ class TaskBoardCard extends StatefulWidget {
 }
 
 class _TaskBoardCardState extends State<TaskBoardCard> {
-  bool _isEditingText = true;
+  bool _isEditingText = false;
   late TextEditingController _titleEditingController;
   late TextEditingController _bodyEditingController;
 
@@ -410,7 +410,7 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              SizedBox(width: 150, child: title),
+              title,
 
               const Spacer(),
               _buildEditButton(),
@@ -420,11 +420,13 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
                 icon: const Icon(Icons.delete),
                 color: Colors.red,
               ),
-              IconButton(
-                onPressed: move,
-                icon: const Icon(Icons.arrow_circle_right_outlined),
-                color: Colors.blue,
-              ),
+              _isEditingText
+                  ? Container()
+                  : IconButton(
+                      onPressed: move,
+                      icon: const Icon(Icons.arrow_circle_right_outlined),
+                      color: Colors.blue,
+                    ),
             ],
           ),
           body,
