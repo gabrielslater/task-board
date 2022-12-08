@@ -2,9 +2,6 @@ import 'dart:convert';
 
 import 'package:final_project_kanban_board/local_storage.dart';
 import 'package:final_project_kanban_board/task_board_model.dart';
-import 'dart:ui';
-
-import 'package:final_project_kanban_board/kanban_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -25,7 +22,10 @@ class TaskBoardApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: const TaskBoardMainPage(title: 'Task Board'),
+      home: const TaskBoardTutorialPage(
+        title: 'Task Board',
+        isFirstTime: true,
+      ),
     );
   }
 }
@@ -334,7 +334,16 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
         onImportExport: () {
           _buildImportExportDialog(context);
         },
-        onHelp: () {},
+        onHelp: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const TaskBoardTutorialPage(
+                      title: "Task Board",
+                      isFirstTime: false,
+                    )),
+          );
+        },
       ),
       appBar: AppBar(
         title: Text(widget.title),
@@ -573,8 +582,10 @@ class TaskBoardNavigationDrawer extends StatelessWidget {
 
 class TaskBoardTutorialPage extends StatelessWidget {
   final String title;
+  final bool isFirstTime;
 
-  const TaskBoardTutorialPage({Key? key, required this.title})
+  const TaskBoardTutorialPage(
+      {Key? key, required this.title, required this.isFirstTime})
       : super(key: key);
 
   Widget _buildPage(List<Widget> children) {
@@ -673,6 +684,29 @@ class TaskBoardTutorialPage extends StatelessWidget {
                 'down even further by page numbers if necessary.',
                 style: paragraphStyle,
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              isFirstTime
+                  ? Row(
+                      children: [
+                        const Spacer(),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const TaskBoardMainPage(
+                                        title: "Task Board",
+                                      )),
+                            );
+                          },
+                          child: const Text('Get Started'),
+                        ),
+                        const Spacer(),
+                      ],
+                    )
+                  : Container(),
             ]),
           ],
         ),
