@@ -404,7 +404,6 @@ class _KanbanCardState extends State<KanbanCard> {
 
   void move() {
     widget.onMove();
-    onDelete();
   }
 }
 
