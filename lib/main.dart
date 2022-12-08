@@ -143,12 +143,12 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
   Future<Widget> _buildDialogOption(BuildContext context, String slot) async {
     var slotInfo = await manager.loadFromStorage(slot);
 
-    return Container(
-      color: Colors.black12,
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-      margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
-      child: SizedBox(
-        width: 450,
+    return SizedBox(
+      width: 450,
+      child: Container(
+        color: Colors.black12,
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -243,7 +243,7 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
           Container(
             padding: const EdgeInsets.all(16),
             child: SizedBox(
-              width: 500,
+              width: 450,
               child: Column(
                 children: [
                   SizedBox(
