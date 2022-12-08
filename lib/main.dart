@@ -1,40 +1,40 @@
-import 'package:final_project_kanban_board/kanban_model.dart';
 import 'package:final_project_kanban_board/local_storage.dart';
+import 'package:final_project_kanban_board/task_board_model.dart';
 import 'package:flutter/material.dart';
 
 import 'date_utils.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const KanbanApp());
+  runApp(const TaskBoardApp());
 }
 
-class KanbanApp extends StatelessWidget {
-  const KanbanApp({Key? key}) : super(key: key);
+class TaskBoardApp extends StatelessWidget {
+  const TaskBoardApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'KanBan!',
+      title: 'Task Board',
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: const KanbanMainPage(title: 'Project KanBan!'),
+      home: const TaskBoardMainPage(title: 'Task Board'),
     );
   }
 }
 
-class KanbanMainPage extends StatefulWidget {
-  const KanbanMainPage({Key? key, required this.title}) : super(key: key);
+class TaskBoardMainPage extends StatefulWidget {
+  const TaskBoardMainPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<KanbanMainPage> createState() => _KanbanMainPageState();
+  State<TaskBoardMainPage> createState() => _TaskBoardMainPageState();
 }
 
-class _KanbanMainPageState extends State<KanbanMainPage> {
-  KanbanBoardModel board = KanbanBoardModel();
+class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
+  BoardModel board = BoardModel();
   final LocalStoreManager manager = LocalStoreManager();
   late SnackBar saveSnackBar = const SnackBar(content: Text('Saved slot'));
   late SnackBar loadSnackBar = const SnackBar(content: Text('Loaded slot'));
@@ -53,7 +53,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
     });
   }
 
-  /// Creates a widget for displaying a [KanbanColumnModel].
+  /// Creates a widget for displaying a [ColumnModel].
   Widget _buildColumn(int column) {
     return SizedBox(
       child: Container(
@@ -89,7 +89,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                 itemCount: board.getColumnList(column).length,
                 itemBuilder: (context, index) {
                   var card = board.getColumnList(column)[index];
-                  return KanbanCard(
+                  return TaskBoardCard(
                       // Building persistent ListViews
                       // https://www.youtube.com/watch?v=kn0EOS-ZiIc&
                       key: UniqueKey(),
@@ -183,7 +183,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
                   : () async {
                       var slotData = await manager.loadFromStorage(slot);
                       setState(() {
-                        board = KanbanBoardModel.fromJson(slotData!['board']);
+                        board = BoardModel.fromJson(slotData!['board']);
                       });
 
                       if (!mounted) return;
@@ -234,7 +234,7 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: KanbanNavigationDrawer(
+      drawer: TaskBoardNavigationDrawer(
         onSaveLoad: () {
           _buildSaveLoadDialog(context);
         },
@@ -261,8 +261,8 @@ class _KanbanMainPageState extends State<KanbanMainPage> {
   }
 }
 
-/// Creates a widget for displaying a [KanbanCardModel].
-class KanbanCard extends StatefulWidget {
+/// Creates a widget for displaying a [CardModel].
+class TaskBoardCard extends StatefulWidget {
   final String title;
   final String body;
 
@@ -270,7 +270,7 @@ class KanbanCard extends StatefulWidget {
   final Function() onDelete;
   final Function() onMove;
 
-  const KanbanCard({
+  const TaskBoardCard({
     Key? key,
     required this.title,
     required this.body,
@@ -280,10 +280,10 @@ class KanbanCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _KanbanCardState();
+  State<StatefulWidget> createState() => _TaskBoardCardState();
 }
 
-class _KanbanCardState extends State<KanbanCard> {
+class _TaskBoardCardState extends State<TaskBoardCard> {
   bool _isEditingText = false;
   late TextEditingController _titleEditingController;
   late TextEditingController _bodyEditingController;
@@ -407,8 +407,8 @@ class _KanbanCardState extends State<KanbanCard> {
   }
 }
 
-class KanbanNavigationDrawer extends StatelessWidget {
-  const KanbanNavigationDrawer(
+class TaskBoardNavigationDrawer extends StatelessWidget {
+  const TaskBoardNavigationDrawer(
       {Key? key,
       required this.onSaveLoad,
       required this.onImportExport,

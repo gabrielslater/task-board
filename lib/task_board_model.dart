@@ -1,15 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'kanban_model.g.dart';
+part 'task_board_model.g.dart';
 
 @JsonSerializable()
-class KanbanBoardModel {
-  final List<KanbanColumnModel> columns;
+class BoardModel {
+  final List<ColumnModel> columns;
 
   int get size => columns.length;
 
-  KanbanBoardModel([List<KanbanColumnModel>? columns])
-      : columns = columns ?? [];
+  BoardModel([List<ColumnModel>? columns]) : columns = columns ?? [];
 
   void init() {
     addColumn('To do');
@@ -23,8 +22,8 @@ class KanbanBoardModel {
     }
   }
 
-  factory KanbanBoardModel.fromJson(Map<String, dynamic> json) =>
-      _$KanbanBoardModelFromJson(json);
+  factory BoardModel.fromJson(Map<String, dynamic> json) =>
+      _$BoardModelFromJson(json);
 
   Map<String, dynamic> toJson() {
     var cols = [];
@@ -38,12 +37,12 @@ class KanbanBoardModel {
 
   int getColumnSize(int index) => columns[index].size;
 
-  List<KanbanCardModel> getColumnList(int index) => columns[index].getCards;
+  List<CardModel> getColumnList(int index) => columns[index].getCards;
 
   String getColumnTitle(int index) => columns[index].title;
 
   void addColumn(String title) {
-    columns.add(KanbanColumnModel(title));
+    columns.add(ColumnModel(title));
   }
 
   void retitleColumn(int index, String title) {
@@ -54,7 +53,7 @@ class KanbanBoardModel {
     columns[index].addNewCard(title, body);
   }
 
-  /// Moves a [KanbanCardModel] at [fromIndex] in column [fromColumn] to
+  /// Moves a [CardModel] at [fromIndex] in column [fromColumn] to
   /// [toIndex] in [toColumn]
   void moveCard(int fromColumn, int toColumn, int fromIndex, int toIndex) {
     var card = columns[fromColumn].removeCard(fromIndex);
@@ -71,20 +70,20 @@ class KanbanBoardModel {
 }
 
 @JsonSerializable()
-class KanbanColumnModel {
+class ColumnModel {
   late String title;
-  List<KanbanCardModel> cards = [];
+  List<CardModel> cards = [];
 
-  KanbanColumnModel(this.title);
+  ColumnModel(this.title);
 
   int get size => cards.length;
 
-  List<KanbanCardModel> get getCards => [...cards];
+  List<CardModel> get getCards => [...cards];
 
-  KanbanCardModel getCard(int index) => cards[index];
+  CardModel getCard(int index) => cards[index];
 
-  factory KanbanColumnModel.fromJson(Map<String, dynamic> json) =>
-      _$KanbanColumnModelFromJson(json);
+  factory ColumnModel.fromJson(Map<String, dynamic> json) =>
+      _$ColumnModelFromJson(json);
 
   Map<String, dynamic> toJson() {
     var cardsJson = [];
@@ -104,14 +103,14 @@ class KanbanColumnModel {
   }
 
   void addNewCard(String title, String body) {
-    cards.add(KanbanCardModel(title, body));
+    cards.add(CardModel(title, body));
   }
 
-  void addCard(KanbanCardModel card) {
+  void addCard(CardModel card) {
     cards.add(card);
   }
 
-  KanbanCardModel removeCard(int index) {
+  CardModel removeCard(int index) {
     return cards.removeAt(index);
   }
 
@@ -119,7 +118,7 @@ class KanbanColumnModel {
     cards[index] = cards[index].updateTitle(title).updateBody(body);
   }
 
-  void addCardAt(int index, KanbanCardModel card) {
+  void addCardAt(int index, CardModel card) {
     cards.insert(index, card);
   }
 
@@ -130,28 +129,28 @@ class KanbanColumnModel {
 }
 
 @JsonSerializable()
-class KanbanCardModel {
+class CardModel {
   final String title;
 
   final String body;
 
-  const KanbanCardModel(this.title, this.body);
+  const CardModel(this.title, this.body);
 
-  factory KanbanCardModel.fromJson(Map<String, dynamic> json) =>
-      _$KanbanCardModelFromJson(json);
+  factory CardModel.fromJson(Map<String, dynamic> json) =>
+      _$CardModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KanbanCardModelToJson(this);
+  Map<String, dynamic> toJson() => _$CardModelToJson(this);
 
-  KanbanCardModel updateTitle(String title) {
-    return KanbanCardModel(title, body);
+  CardModel updateTitle(String title) {
+    return CardModel(title, body);
   }
 
-  KanbanCardModel updateBody(String body) {
-    return KanbanCardModel(title, body);
+  CardModel updateBody(String body) {
+    return CardModel(title, body);
   }
 
-  KanbanCardModel copy() {
-    return KanbanCardModel(title, body);
+  CardModel copy() {
+    return CardModel(title, body);
   }
 
   @override

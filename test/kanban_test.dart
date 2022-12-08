@@ -1,9 +1,9 @@
-import 'package:final_project_kanban_board/kanban_model.dart';
+import 'package:final_project_kanban_board/task_board_model.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('Card Tests', () {
-    var card = const KanbanCardModel('Title', 'Body');
+    var card = const CardModel('Title', 'Body');
     test('updateTitle makes a deep copy and changes the card\'s title', () {
       var modifiedCard = card.updateTitle('New Title');
 
@@ -30,8 +30,8 @@ void main() {
   });
 
   group('Column Tests', () {
-    var column = KanbanColumnModel('Column A');
-    var card = const KanbanCardModel("Title", "Body");
+    var column = ColumnModel('Column A');
+    var card = const CardModel("Title", "Body");
 
     test('retitle renames a column', () {
       expect(column.title, equals('Column A'));
@@ -40,7 +40,7 @@ void main() {
       expect(column.title, equals('Column 1'));
     });
 
-    column = KanbanColumnModel('Column A');
+    column = ColumnModel('Column A');
 
     group('addNewCard', () {
       test('addNewCard adds new card', () {
@@ -51,7 +51,7 @@ void main() {
     });
 
     test('addCard adds an existing card', () {
-      var column = KanbanColumnModel('Column A');
+      var column = ColumnModel('Column A');
 
       column.addCard(card);
 
@@ -60,7 +60,7 @@ void main() {
     });
 
     test('getCard returns the correct card', () {
-      var column = KanbanColumnModel('Column A');
+      var column = ColumnModel('Column A');
 
       column.addNewCard('Title 0', 'Body');
       column.addNewCard('Title 1', 'Body');
@@ -70,7 +70,7 @@ void main() {
     });
 
     test('removeCard returns the card it removed', () {
-      var column = KanbanColumnModel('Column A');
+      var column = ColumnModel('Column A');
 
       column.addCard(card);
 
@@ -80,14 +80,14 @@ void main() {
 
   group('Board Tests', () {
     test('addColumn adds a new column', () {
-      var board = KanbanBoardModel();
+      var board = BoardModel();
       board.addColumn('Column A');
 
       expect(board.size, equals(1));
     });
 
     test('retitleColumn properly renames a column', () {
-      var board = KanbanBoardModel();
+      var board = BoardModel();
       board.addColumn('Column A');
 
       expect(board.getColumnTitle(0), 'Column A');
@@ -98,7 +98,7 @@ void main() {
     });
 
     test('moveCard sends a card from one column to another', () {
-      var board = KanbanBoardModel();
+      var board = BoardModel();
       board.addColumn('Column A');
       board.addColumn('Column B');
 
@@ -113,7 +113,7 @@ void main() {
     });
 
     test('deleteCard removes a card from a column', () {
-      var board = KanbanBoardModel();
+      var board = BoardModel();
       board.addColumn('Column A');
 
       board.addCard(0, 'Title', 'Body');
