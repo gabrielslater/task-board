@@ -62,10 +62,10 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
   }
 
   /// Creates a widget for displaying a [ColumnModel].
-  Widget _buildColumn(BuildContext context, int column) {
-    return SizedBox.expand(
+  Widget _buildColumn(int column) {
+    return SizedBox(
       child: Container(
-        width: MediaQuery.of(context).size.width / 4,
+        width: 350,
         color: Colors.black12,
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -364,13 +364,13 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
       body: Row(
         children: [
           Flexible(
-            child: _buildColumn(context, 0),
+            child: _buildColumn(0),
           ),
           Flexible(
-            child: _buildColumn(context, 1),
+            child: _buildColumn(1),
           ),
           Flexible(
-            child: _buildColumn(context, 2),
+            child: _buildColumn(2),
           ),
         ],
       ),
