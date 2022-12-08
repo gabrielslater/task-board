@@ -22,19 +22,6 @@ class BoardModel {
     }
   }
 
-  factory BoardModel.fromJson(Map<String, dynamic> json) =>
-      _$BoardModelFromJson(json);
-
-  Map<String, dynamic> toJson() {
-    var cols = [];
-
-    for (var col in columns) {
-      cols.add(col.toJson());
-    }
-
-    return {'columns': cols};
-  }
-
   int getColumnSize(int index) => columns[index].size;
 
   List<CardModel> getColumnList(int index) => columns[index].getCards;
@@ -67,6 +54,19 @@ class BoardModel {
   void modifyCard(int colIndex, int cardIndex, String title, String body) {
     columns[colIndex].modifyCard(cardIndex, title, body);
   }
+
+  factory BoardModel.fromJson(Map<String, dynamic> json) =>
+      _$BoardModelFromJson(json);
+
+  Map<String, dynamic> toJson() {
+    var cols = [];
+
+    for (var col in columns) {
+      cols.add(col.toJson());
+    }
+
+    return {'columns': cols};
+  }
 }
 
 @JsonSerializable()
@@ -81,22 +81,6 @@ class ColumnModel {
   List<CardModel> get getCards => [...cards];
 
   CardModel getCard(int index) => cards[index];
-
-  factory ColumnModel.fromJson(Map<String, dynamic> json) =>
-      _$ColumnModelFromJson(json);
-
-  Map<String, dynamic> toJson() {
-    var cardsJson = [];
-
-    for (var card in cards) {
-      cardsJson.add(card.toJson());
-    }
-
-    return {
-      'title': title,
-      'cards': cardsJson,
-    };
-  }
 
   void retitle(String newTitle) {
     title = newTitle;
@@ -122,6 +106,22 @@ class ColumnModel {
     cards.insert(index, card);
   }
 
+  factory ColumnModel.fromJson(Map<String, dynamic> json) =>
+      _$ColumnModelFromJson(json);
+
+  Map<String, dynamic> toJson() {
+    var cardsJson = [];
+
+    for (var card in cards) {
+      cardsJson.add(card.toJson());
+    }
+
+    return {
+      'title': title,
+      'cards': cardsJson,
+    };
+  }
+
   @override
   String toString() {
     return 'KanbanColumnModel{title: $title, cards: $cards}';
@@ -136,11 +136,6 @@ class CardModel {
 
   const CardModel(this.title, this.body);
 
-  factory CardModel.fromJson(Map<String, dynamic> json) =>
-      _$CardModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CardModelToJson(this);
-
   CardModel updateTitle(String title) {
     return CardModel(title, body);
   }
@@ -152,6 +147,11 @@ class CardModel {
   CardModel copy() {
     return CardModel(title, body);
   }
+
+  factory CardModel.fromJson(Map<String, dynamic> json) =>
+      _$CardModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CardModelToJson(this);
 
   @override
   String toString() {
