@@ -125,7 +125,7 @@ class KanbanColumnModel {
 
   @override
   String toString() {
-    return 'KanbanColumnModel{_title: $title, _cards: $cards}';
+    return 'KanbanColumnModel{title: $title, cards: $cards}';
   }
 }
 
@@ -156,7 +156,6 @@ class KanbanCardModel {
 
   @override
   String toString() {
-    // TODO: rename variables in Strings
-    return 'KanbanCardModel{_title: $title, _body: $body}';
+    return 'KanbanCardModel{title: $title, body: $body}';
   }
 }
