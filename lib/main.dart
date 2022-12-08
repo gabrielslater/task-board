@@ -57,7 +57,7 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
 
   void _addCard(int column) {
     setState(() {
-      _board.addCard(column, "Title", "Body");
+      _board.addCard(column, "", "");
     });
   }
 
@@ -376,7 +376,7 @@ class TaskBoardCard extends StatefulWidget {
 }
 
 class _TaskBoardCardState extends State<TaskBoardCard> {
-  bool _isEditingText = false;
+  bool _isEditingText = true;
   late TextEditingController _titleEditingController;
   late TextEditingController _bodyEditingController;
 
@@ -437,7 +437,10 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
     if (_isEditingText) {
       return ConstrainedBox(
           constraints: const BoxConstraints.tightFor(width: 200),
-          child: TextField(controller: _titleEditingController));
+          child: TextField(
+            controller: _titleEditingController,
+            decoration: const InputDecoration(hintText: 'Card title'),
+          ));
     } else {
       return Text(
         widget.title,
@@ -451,7 +454,10 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
 
   Widget get body {
     if (_isEditingText) {
-      return TextField(controller: _bodyEditingController);
+      return TextField(
+        controller: _bodyEditingController,
+        decoration: const InputDecoration(hintText: 'Text'),
+      );
     } else {
       return Text(
         widget.body,
