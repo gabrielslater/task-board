@@ -14,12 +14,6 @@ class BoardModel {
     addColumn('To do');
     addColumn('Working on');
     addColumn('Finished');
-
-    for (var i = 0; i < size; i++) {
-      for (var j = 0; j < 3; j++) {
-        addCard(i, "Title", "Body");
-      }
-    }
   }
 
   int getColumnSize(int index) => columns[index].size;
