@@ -1,6 +1,6 @@
-# final_project_kanban_board
+# final_project_task_board
 
-Simple kanban board.
+Simple task board.
 
 [Online deployment](https://kanban-app-f22.netlify.app/)
 
