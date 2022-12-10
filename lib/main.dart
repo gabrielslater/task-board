@@ -90,6 +90,7 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
                       _addCard(column);
                     });
                   },
+                  tooltip: "Add card to column",
                   icon: const Icon(Icons.add),
                 )
               ],
@@ -145,12 +146,12 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
   Future<Widget> _buildDialogOption(BuildContext context, String slot) async {
     var slotInfo = await manager.loadFromStorage(slot);
 
-    return Container(
-      color: Colors.black12,
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-      margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
-      child: SizedBox(
-        width: 450,
+    return SizedBox(
+      width: 450,
+      child: Container(
+        color: Colors.black12,
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -245,24 +246,41 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
           Container(
             padding: const EdgeInsets.all(16),
             child: SizedBox(
-              width: 500,
+              width: 450,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 150,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.black12,
-                      child: TextField(
-                        minLines: 6,
-                        maxLines: null,
-                        keyboardType: TextInputType.multiline,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Paste a board\'s JSON',
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.black12,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: const [
+                            Text(
+                              'Import',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
                         ),
-                        controller: _importExportTextController,
-                      ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        SizedBox(
+                          height: 150,
+                          child: TextField(
+                            minLines: 6,
+                            maxLines: null,
+                            keyboardType: TextInputType.multiline,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Paste a board\'s JSON',
+                            ),
+                            controller: _importExportTextController,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(
@@ -276,8 +294,15 @@ class _TaskBoardMainPageState extends State<TaskBoardMainPage> {
                         children: [
                           Row(
                             children: [
+                              const Text(
+                                'Export',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               const Spacer(),
                               IconButton(
+                                  tooltip: "Copy JSON string",
                                   onPressed: () {
                                     Clipboard.setData(
                                         ClipboardData(text: jsonString));
@@ -430,12 +455,14 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
               IconButton(
                 onPressed: onDelete,
                 icon: const Icon(Icons.delete),
+                tooltip: "Delete card",
                 color: Colors.red,
               ),
               _isEditingText
                   ? Container()
                   : IconButton(
                       onPressed: move,
+                      tooltip: "Move card to the right",
                       icon: const Icon(Icons.arrow_circle_right_outlined),
                       color: Colors.blue,
                     ),
@@ -494,6 +521,7 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
             _isEditingText = false;
           });
         },
+        tooltip: "Finish editing card",
         icon: const Icon(Icons.check),
         color: Colors.green,
       );
@@ -504,6 +532,7 @@ class _TaskBoardCardState extends State<TaskBoardCard> {
             _isEditingText = true;
           });
         },
+        tooltip: "Edit card",
         icon: const Icon(Icons.edit),
         color: Colors.lightBlue,
       );
