@@ -2,6 +2,6 @@
 
 Simple task board.
 
-[Online deployment](https://kanban-app-f22.netlify.app/)
+[Online deployment](https://task-board-app-f22.netlify.app/)
 
 Written by Ethan, Edgar, Mason, and Gabriel.
