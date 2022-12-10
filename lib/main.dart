@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:final_project_kanban_board/local_storage.dart';
-import 'package:final_project_kanban_board/task_board_model.dart';
+import 'package:final_project_task_board/local_storage.dart';
+import 'package:final_project_task_board/task_board_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
