@@ -577,7 +577,7 @@ class TaskBoardNavigationDrawer extends StatelessWidget {
       child: Row(
         children: [
           const Text(
-            "Kanban Board",
+            "Task Board",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
