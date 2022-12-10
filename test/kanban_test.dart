@@ -1,4 +1,4 @@
-import 'package:final_project_kanban_board/task_board_model.dart';
+import 'package:final_project_task_board/task_board_model.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -118,7 +118,7 @@ class ColumnModel {
 
   @override
   String toString() {
-    return 'KanbanColumnModel{title: $title, cards: $cards}';
+    return 'TaskBoardColumnModel{title: $title, cards: $cards}';
   }
 }
 
@@ -149,6 +149,6 @@ class CardModel {
 
   @override
   String toString() {
-    return 'KanbanCardModel{title: $title, body: $body}';
+    return 'TaskBoardCardModel{title: $title, body: $body}';
   }
 }
