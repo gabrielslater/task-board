@@ -663,7 +663,7 @@ class TaskBoardTutorialPage extends StatelessWidget {
                 'much easier to keep working. "Write one sentence" can '
                 'quickly become the urge to write a whole paragraph '
                 'once started.',
-                style: const TextStyle(fontSize: 16),
+                style: paragraphStyle,
               ),
             ]),
             _buildPage([
