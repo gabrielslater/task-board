@@ -1,5 +1,5 @@
-name: final_project_task_board
-description: Simple task board.
+name: final_project_kanban_board
+description: Three list kanban board.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
