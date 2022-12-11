@@ -669,7 +669,7 @@ class TaskBoardTutorialPage extends StatelessWidget {
                 height: 10,
               ),
               const Text(
-                'Click the "Chunking" page above to proceed!',
+                'Click the "Breaking Down and Organizing Tasks" page above to proceed!',
                 style: const TextStyle(fontSize: 16),
               ),
             ]),
