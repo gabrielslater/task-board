@@ -665,6 +665,13 @@ class TaskBoardTutorialPage extends StatelessWidget {
                 'once started.',
                 style: paragraphStyle,
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'Click the "Breaking Down and Organizing Tasks" page above to proceed!',
+                style: const TextStyle(fontSize: 16),
+              ),
             ]),
             _buildPage([
               const Text(
@@ -687,6 +694,13 @@ class TaskBoardTutorialPage extends StatelessWidget {
                 'specific enough task for you, then it\'s fine to write that '
                 'down.',
                 style: paragraphStyle,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'Click the "Time Management" page above to proceed!',
+                style: const TextStyle(fontSize: 16),
               ),
             ]),
             _buildPage([
@@ -747,7 +761,7 @@ class TaskBoardTutorialPage extends StatelessWidget {
                 text: "Why?",
               ),
               Tab(
-                text: "Chunking",
+                text: "Breaking Down and Organizing Tasks",
               ),
               Tab(
                 text: "Time management",
