@@ -670,7 +670,7 @@ class TaskBoardTutorialPage extends StatelessWidget {
               ),
               const Text(
                 'Click the "Breaking Down and Organizing Tasks" page above to proceed!',
-                style: const TextStyle(fontSize: 16),
+                style: paragraphStyle,
               ),
             ]),
             _buildPage([
